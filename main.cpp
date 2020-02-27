@@ -62,6 +62,7 @@ public:
 	int color;
 
 	Point2D pL, pR;
+	Point2D tL, tR;
 
 	ColorNode(int il, int ir, int ic)
 	{
@@ -138,6 +139,8 @@ int main(int argc, char* argv[])
 				l2->l = col;
 				l2->pL.x = col;
 				l2->pL.y = row;
+				l2->tL.x = col;
+				l2->tL.y = row;
 				l2->color = cc;
 
 				l2->pL.gl = numeric_limits<double>::lowest();
@@ -150,6 +153,8 @@ int main(int argc, char* argv[])
 			l2->r = col;
 			l2->pR.x = col;
 			l2->pR.y = row;
+			l2->tR.x = col;
+			l2->tR.y = row;
 
 			ptr += 3;
 		}
@@ -168,6 +173,8 @@ int main(int argc, char* argv[])
 				{
 					f2[i2].pL.x = f1[i1].pL.x;
 					f2[i2].pL.y = f1[i1].pL.y;
+					f2[i2].tL.x = f1[i1].pL.x;
+					f2[i2].tL.y = f1[i1].pL.y;
 
 					if (f1[i1].pL.x != f1[i1].l || f1[i1].pL.y != row - 1)
 					{
@@ -243,6 +250,8 @@ int main(int argc, char* argv[])
 				{
 					f2[i2].pR.x = f1[i1].pR.x;
 					f2[i2].pR.y = f1[i1].pR.y;
+					f2[i2].tR.x = f1[i1].pR.x;
+					f2[i2].tR.y = f1[i1].pR.y;
 
 					double dx = (double)f2[i2].r - (double)f2[i2].pR.x;
 					double dy = (double)row - (double)f2[i2].pR.y;
@@ -307,6 +316,7 @@ int main(int argc, char* argv[])
 		}
 
 		// print keypoints
+		int track = -1;
 		for (int i = 0; i <= len1; ++i)
 		{
 			if (f1[i].color != 61)
@@ -314,120 +324,36 @@ int main(int argc, char* argv[])
 				continue;
 			}
 
-			if (f1[i].pL.isVertice)
-			{
-				
-				//if (f1[i].l == 2147 && row - 1 == 348)
-				{
-					Point centerCircle(f1[i].l, row - 1);
-					int radius = 5;
-					Scalar colorCircle(0, 0, 255);
-					circle(outImg, centerCircle, radius, colorCircle, FILLED);
-				}
-				
-
-				for (int j = 0; j < eSize; ++j)
-				{
-					if (edges[j].p1.x == f1[i].pL.x && f1[i].pL.y == edges[j].p1.y)
-					{
-						edges[eSize].p1.assign(f1[i].l, row - 1);
-						edges[eSize].p2.assign(&edges[j].p1);
-						edges[eSize].pRight = i;
-						edges[j].pLeft = eSize;
-						++eSize;
-						break;
-					}
-					else if (edges[j].p2.x == f1[i].pL.x && f1[i].pL.y == edges[j].p2.y)
-					{
-						edges[eSize].p2.assign(f1[i].l, row - 1);
-						edges[eSize].p1.assign(&edges[j].p2);
-						edges[eSize].pLeft = i;
-						edges[j].pRight = eSize;
-						++eSize;
-						break;
-					}
-				}
-			}
-
-			if (f1[i].pR.isVertice)
-			{
-
-				//if (f1[i].r == 2147 && row - 1 == 347)
-				{
-					Point centerCircle(f1[i].r, row - 1);
-					int radius = 5;
-					Scalar colorCircle(0, 0, 255);
-					circle(outImg, centerCircle, radius, colorCircle, FILLED);
-				}
-
-				for (int j = 0; j < eSize; ++j)
-				{
-					if (edges[j].p1.x == f1[i].pR.x && f1[i].pR.y == edges[j].p1.y)
-					{
-						edges[eSize].p1.assign(f1[i].r, row - 1);
-						edges[eSize].p2.assign(&edges[j].p1);
-						edges[eSize].pLeft = -1;
-						edges[eSize].pRight = i;
-						edges[j].pLeft = eSize;
-						++eSize;
-						break;
-					}
-					else if (edges[j].p2.x == f1[i].pR.x && f1[i].pR.y == edges[j].p2.y)
-					{
-						edges[eSize].p2.assign(f1[i].r, row - 1);
-						edges[eSize].p1.assign(&edges[j].p2);
-						edges[eSize].pLeft = i;
-						edges[eSize].pRight = -1;
-						edges[j].pRight = eSize;
-						++eSize;
-						break;
-					}
-				}
-			}
-
-			if (f1[i].pL.isVertice && f1[i].pR.isVertice)
+			if (f1[i].pL.isVertice && f1[i].pR.isVertice && f1[i].pL.x == f1[i].l && f1[i].pL.y == row - 1 && f1[i].pR.x == f1[i].r && f1[i].pR.y == row - 1)
 			{
 				edges[eSize].p1.assign(f1[i].l, row - 1);
 				edges[eSize].p2.assign(f1[i].r, row - 1);
-				edges[eSize].pLeft = -1;
-				edges[eSize].pRight = -1;
-
-				for (int j = 0; j < eSize; ++j)
-				{
-					if (edges[j].p1.x == f1[i].l && row - 1 == edges[j].p1.y)
-					{
-						edges[eSize].pRight = i;
-						edges[j].pLeft = eSize;
-						break;
-					}
-					else if (edges[j].p2.x == f1[i].l && row - 1 == edges[j].p2.y)
-					{
-						edges[eSize].pLeft = i;
-						edges[j].pRight = eSize;
-						break;
-					}
-				}
-
-				for (int j = 0; j < eSize; ++j)
-				{
-					if (edges[j].p1.x == f1[i].r && row - 1 == edges[j].p1.y)
-					{
-						edges[eSize].pLeft = -1;
-						edges[eSize].pRight = i;
-						edges[j].pLeft = eSize;
-						break;
-					}
-					else if (edges[j].p2.x == f1[i].r && row - 1 == edges[j].p2.y)
-					{
-						edges[eSize].pLeft = i;
-						edges[eSize].pRight = -1;
-						edges[j].pRight = eSize;
-						break;
-					}
-				}
-
 				++eSize;
 			}
+			else if (f1[i].pL.isVertice)
+			{
+				edges[eSize].p2.assign(f1[i].l, row - 1);
+				edges[eSize].p1.assign(&f1[i].tL);
+				++eSize;
+			}
+			else if (f1[i].pR.isVertice)
+			{
+				edges[eSize].p2.assign(f1[i].r, row - 1);
+				edges[eSize].p1.assign(&f1[i].tR);
+				++eSize;
+			}
+			
+			if (track != -1)
+			{
+				if (f1[track].pR.isVertice && f1[i].pL.isVertice)
+				{
+					edges[eSize].p2.assign(f1[track].r, row - 1);
+					edges[eSize].p1.assign(f1[i].l, row - 1);
+					++eSize;
+				}
+			}
+
+			track = i;
 		}
 
 		swap(f1, f2);
@@ -445,6 +371,16 @@ int main(int argc, char* argv[])
 
 	for (int sst = 0; sst < eSize; ++sst)
 	{
+		line(
+			outImg,
+			Point(edges[sst].p1.x, edges[sst].p1.y),
+			Point(edges[sst].p2.x, edges[sst].p2.y),
+			Scalar(0, 0, 255),
+			5,
+			8
+		);
+
+
 		log << sst << "  -  [(" << edges[sst].p1.x << ", " << edges[sst].p1.y << ") - (" << edges[sst].p2.x << ", " << edges[sst].p2.y << ")] Left " << edges[sst].pLeft << " Right " << edges[sst].pRight << endl;
 	}
 
