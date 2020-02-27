@@ -317,7 +317,7 @@ int main(int argc, char* argv[])
 			if (f1[i].pL.isVertice)
 			{
 				
-				if (f1[i].l == 2147 && row - 1 == 347)
+				//if (f1[i].l == 2147 && row - 1 == 348)
 				{
 					Point centerCircle(f1[i].l, row - 1);
 					int radius = 5;
@@ -351,6 +351,15 @@ int main(int argc, char* argv[])
 
 			if (f1[i].pR.isVertice)
 			{
+
+				//if (f1[i].r == 2147 && row - 1 == 347)
+				{
+					Point centerCircle(f1[i].r, row - 1);
+					int radius = 5;
+					Scalar colorCircle(0, 0, 255);
+					circle(outImg, centerCircle, radius, colorCircle, FILLED);
+				}
+
 				for (int j = 0; j < eSize; ++j)
 				{
 					if (edges[j].p1.x == f1[i].pR.x && f1[i].pR.y == edges[j].p1.y)
