@@ -1,0 +1,6 @@
+﻿  main.cpp
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(157,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(158,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+main.obj : error LNK2001: unresolved external symbol "bool __cdecl cv::imwrite(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class cv::_InputArray const &,class std::vector<int,class std::allocator<int> > const &)" (?imwrite@cv@@YA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV_InputArray@1@AEBV?$vector@HV?$allocator@H@std@@@3@@Z)
+main.obj : error LNK2001: unresolved external symbol "public: void __cdecl cv::Mat::copyTo(class cv::_OutputArray const &)const " (?copyTo@Mat@cv@@QEBAXAEBV_OutputArray@2@@Z)
+C:\Projects\Photo-Based-Clothing-Measurements\x64\Release\Photo-Based-Clothing-Measurements.exe : fatal error LNK1120: 2 unresolved externals

@@ -314,17 +314,9 @@ int main(int argc, char* argv[])
 				continue;
 			}
 
-			if (f1[i].pL.isVertice && f1[i].pR.isVertice)
-			{
-				edges[eSize].p1.assign(f1[i].l, row - 1);
-				edges[eSize].p2.assign(f1[i].r, row - 1);
-				edges[eSize].pLeft = -1;
-				edges[eSize].pRight = -1;
-				++eSize;
-			}
-
 			if (f1[i].pL.isVertice)
 			{
+				
 				if (f1[i].l == 2147 && row - 1 == 347)
 				{
 					Point centerCircle(f1[i].l, row - 1);
@@ -332,6 +324,7 @@ int main(int argc, char* argv[])
 					Scalar colorCircle(0, 0, 255);
 					circle(outImg, centerCircle, radius, colorCircle, FILLED);
 				}
+				
 
 				for (int j = 0; j < eSize; ++j)
 				{
@@ -341,6 +334,7 @@ int main(int argc, char* argv[])
 						edges[eSize].p2.assign(&edges[j].p1);
 						edges[eSize].pRight = i;
 						edges[j].pLeft = eSize;
+						++eSize;
 						break;
 					}
 					else if (edges[j].p2.x == f1[i].pL.x && f1[i].pL.y == edges[j].p2.y)
@@ -349,9 +343,45 @@ int main(int argc, char* argv[])
 						edges[eSize].p1.assign(&edges[j].p2);
 						edges[eSize].pLeft = i;
 						edges[j].pRight = eSize;
+						++eSize;
 						break;
 					}
 				}
+			}
+
+			if (f1[i].pR.isVertice)
+			{
+				for (int j = 0; j < eSize; ++j)
+				{
+					if (edges[j].p1.x == f1[i].pR.x && f1[i].pR.y == edges[j].p1.y)
+					{
+						edges[eSize].p1.assign(f1[i].r, row - 1);
+						edges[eSize].p2.assign(&edges[j].p1);
+						edges[eSize].pLeft = -1;
+						edges[eSize].pRight = i;
+						edges[j].pLeft = eSize;
+						++eSize;
+						break;
+					}
+					else if (edges[j].p2.x == f1[i].pR.x && f1[i].pR.y == edges[j].p2.y)
+					{
+						edges[eSize].p2.assign(f1[i].r, row - 1);
+						edges[eSize].p1.assign(&edges[j].p2);
+						edges[eSize].pLeft = i;
+						edges[eSize].pRight = -1;
+						edges[j].pRight = eSize;
+						++eSize;
+						break;
+					}
+				}
+			}
+
+			if (f1[i].pL.isVertice && f1[i].pR.isVertice)
+			{
+				edges[eSize].p1.assign(f1[i].l, row - 1);
+				edges[eSize].p2.assign(f1[i].r, row - 1);
+				edges[eSize].pLeft = -1;
+				edges[eSize].pRight = -1;
 
 				for (int j = 0; j < eSize; ++j)
 				{
@@ -369,37 +399,11 @@ int main(int argc, char* argv[])
 					}
 				}
 
-				++eSize;
-			}
-
-			if (f1[i].pR.isVertice)
-			{
-				for (int j = 0; j < eSize; ++j)
-				{
-					if (edges[j].p1.x == f1[i].pR.x && f1[i].pR.y == edges[j].p1.y)
-					{
-						edges[eSize].p1.assign(f1[i].r, row - 1);
-						edges[eSize].p2.assign(&edges[j].p1);
-						edges[eSize].pLeft = -1;
-						edges[eSize].pRight = i;
-						edges[j].pLeft = eSize;
-						break;
-					}
-					else if (edges[j].p2.x == f1[i].pR.x && f1[i].pR.y == edges[j].p2.y)
-					{
-						edges[eSize].p2.assign(f1[i].r, row - 1);
-						edges[eSize].p1.assign(&edges[j].p2);
-						edges[eSize].pLeft = i;
-						edges[eSize].pRight = -1;
-						edges[j].pRight = eSize;
-						break;
-					}
-				}
-
 				for (int j = 0; j < eSize; ++j)
 				{
 					if (edges[j].p1.x == f1[i].r && row - 1 == edges[j].p1.y)
 					{
+						edges[eSize].pLeft = -1;
 						edges[eSize].pRight = i;
 						edges[j].pLeft = eSize;
 						break;
@@ -407,6 +411,7 @@ int main(int argc, char* argv[])
 					else if (edges[j].p2.x == f1[i].r && row - 1 == edges[j].p2.y)
 					{
 						edges[eSize].pLeft = i;
+						edges[eSize].pRight = -1;
 						edges[j].pRight = eSize;
 						break;
 					}
@@ -431,7 +436,7 @@ int main(int argc, char* argv[])
 
 	for (int sst = 0; sst < eSize; ++sst)
 	{
-		log << sst << "  -  [(" << edges[sst].p1.x << ", " << edges[sst].p1.y << ") - (" << edges[sst].p2.x << ", " << edges[sst].p2.y << ")] Left" << edges[sst].pLeft << " Right " << edges[sst].pRight << endl;
+		log << sst << "  -  [(" << edges[sst].p1.x << ", " << edges[sst].p1.y << ") - (" << edges[sst].p2.x << ", " << edges[sst].p2.y << ")] Left " << edges[sst].pLeft << " Right " << edges[sst].pRight << endl;
 	}
 
 	log.close();

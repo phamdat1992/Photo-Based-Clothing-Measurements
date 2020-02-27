@@ -19,4 +19,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="cluster.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="output.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="log.txt" />
+  </ItemGroup>
 </Project>
