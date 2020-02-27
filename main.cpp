@@ -622,13 +622,16 @@ int main(int argc, char* argv[])
 
 								if ((curEdge->isMin && hsg >= curEdge->hsg) || (!curEdge->isMin && hsg <= curEdge->hsg))
 								{
-									triangles.push_back(
-										Triangle(
-											curEdge->p1,
-											curEdge->p2,
-											Point2D(f1[j].l, pRow)
-										)
-									);
+									if (f1[idLeftDown].color == 61)
+									{
+										triangles.push_back(
+											Triangle(
+												curEdge->p1,
+												curEdge->p2,
+												Point2D(f1[j].l, pRow)
+											)
+										);
+									}
 
 									bk.assign(&curEdge->p2);
 									int curEdgeId = cc1[idLeftUp].edgeID;
@@ -744,13 +747,17 @@ int main(int argc, char* argv[])
 								if ((curEdge->isMin && hsg >= curEdge->hsg) || (!curEdge->isMin && hsg <= curEdge->hsg))
 								{
 									bk.assign(&curEdge->p2);
-									triangles.push_back(
-										Triangle(
-											curEdge->p1,
-											curEdge->p2,
-											Point2D(f1[j].r, pRow)
-										)
-									);
+
+									if (f1[idLeftDown].color == 61)
+									{
+										triangles.push_back(
+											Triangle(
+												curEdge->p1,
+												curEdge->p2,
+												Point2D(f1[j].r, pRow)
+											)
+										);
+									}
 
 									int curEdgeId = cc1[idLeftUp].edgeID;
 									cc1[idLeftUp].edgeID = curEdge->pNext;
