@@ -46,6 +46,16 @@ public:
 		this->x = x;
 		this->y = y;
 	}
+
+	bool equal(Point2D* p)
+	{
+		return this->equal(p->x, p->y);
+	}
+
+	bool equal(int x, int y)
+	{
+		return (this->x == x && this->y == y);
+	}
 };
 
 class ColorNode
@@ -99,6 +109,12 @@ public:
 	int pNext;
 	int flag;
 
+	Edge(Point2D* q1, Point2D* q2)
+	{
+		this->p1.assign(q1);
+		this->p2.assign(q2);
+	}
+
 	Edge()
 	{
 		this->flag = -1;
@@ -122,6 +138,16 @@ public:
 
 		this->p1.assign(x1, y1);
 		this->p2.assign(x2, y2);
+	}
+
+	bool equal(Edge* e)
+	{
+		return this->equal(&e->p1, &e->p2);
+	}
+
+	bool equal(Point2D* p1, Point2D* p2)
+	{
+		return this->p1.equal(p1) && this->p2.equal(p2) || this->p1.equal(p2) && this->p2.equal(p1);
 	}
 };
 
@@ -220,6 +246,7 @@ int main(int argc, char* argv[])
 	outImg = inImg.clone();
 
 	list<Triangle> triangles;
+	list<Edge> ledges;
 	ColorNode* f1 = new ColorNode[inImg.cols];
 	ColorNode* f2 = new ColorNode[inImg.cols];
 
@@ -241,7 +268,7 @@ int main(int argc, char* argv[])
 
 	for (int row = 0; row < inImg.rows; ++row)
 	{
-		log << "row " << row << endl;
+		// log << "row " << row << endl;
 
 		if (row == 348)
 		{
@@ -485,6 +512,7 @@ int main(int argc, char* argv[])
 
 		int lenc2 = len1;
 
+		/*
 		for (int i = 0; i <= lenc1; ++i)
 		{
 			{
@@ -503,6 +531,7 @@ int main(int argc, char* argv[])
 				log << endl;
 			}
 		}
+		*/
 
 		for (int idLeftDown = 0, idLeftUp, idRightUp, idRightDown; idLeftDown <= len1; ++idLeftDown)
 		{
@@ -565,21 +594,25 @@ int main(int argc, char* argv[])
 						fkc = j;
 					}
 
+					/*
 					log << "join node" << endl;
 					for (int cur = cc1[idLeftUp].edgeID; cur != -1; cur = edgeStack.getEdge(cur)->pNext)
 					{
 						log << "(" << edgeStack.getEdge(cur)->p1.x << ", " << edgeStack.getEdge(cur)->p2.x << ") ";
 					}
 					log << endl;
+					*/
 				}
 
 				for (int j = idLeftDown; j <= idRightDown; ++j)
 				{
+					/*
 					for (int cur = cc1[idLeftUp].edgeID; cur != -1; cur = edgeStack.getEdge(cur)->pNext)
 					{
 						cout << "[(" << edgeStack.getEdge(cur)->p1.x << ", " << edgeStack.getEdge(cur)->p1.y << ")";
 						cout << "[(" << edgeStack.getEdge(cur)->p2.x << ", " << edgeStack.getEdge(cur)->p2.y << ")] ";
 					}
+					*/
 					cc2[j].setColorNode(&f1[j]);
 					if (cc1[idLeftUp].color != f1[j].color)
 					{
@@ -600,7 +633,7 @@ int main(int argc, char* argv[])
 					{
 						if (f1[j].pL.isVertice)
 						{
-							log << "point_left " << "(" << f1[j].l << ", " << row - 1 << ")" << endl;
+							// log << "point_left " << "(" << f1[j].l << ", " << row - 1 << ")" << endl;
 							Point2D bk;
 							for (; cc1[idLeftUp].edgeID != -1; )
 							{
@@ -624,6 +657,10 @@ int main(int argc, char* argv[])
 								{
 									if (f1[idLeftDown].color == 61)
 									{
+										ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+										ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].l, pRow)));
+										ledges.push_back(Edge(&curEdge->p2, &Point2D(f1[j].l, pRow)));
+										/*
 										triangles.push_back(
 											Triangle(
 												curEdge->p1,
@@ -631,6 +668,7 @@ int main(int argc, char* argv[])
 												Point2D(f1[j].l, pRow)
 											)
 										);
+										*/
 									}
 
 									bk.assign(&curEdge->p2);
@@ -662,7 +700,7 @@ int main(int argc, char* argv[])
 
 						if (f1[j].pR.isVertice)
 						{
-							log << "point_right " << "(" << f1[j].r << ", " << pRow << ")" << endl;
+							// log << "point_right " << "(" << f1[j].r << ", " << pRow << ")" << endl;
 
 							int fflag1 = -1;
 							int fflag2 = cc1[idLeftUp].edgeID;
@@ -725,8 +763,8 @@ int main(int argc, char* argv[])
 							Point2D bk;
 							for (; cc1[idLeftUp].edgeID != -1; )
 							{
-								cout << endl;
-								cout << cc1[idLeftUp].edgeID;
+								//cout << endl;
+								//cout << cc1[idLeftUp].edgeID;
 								Edge* curEdge = edgeStack.getEdge(cc1[idLeftUp].edgeID);
 
 								/*
@@ -750,6 +788,10 @@ int main(int argc, char* argv[])
 
 									if (f1[idLeftDown].color == 61)
 									{
+										ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+										ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].r, pRow)));
+										ledges.push_back(Edge(&curEdge->p2, &Point2D(f1[j].r, pRow)));
+										/*
 										triangles.push_back(
 											Triangle(
 												curEdge->p1,
@@ -757,6 +799,7 @@ int main(int argc, char* argv[])
 												Point2D(f1[j].r, pRow)
 											)
 										);
+										*/
 									}
 
 									int curEdgeId = cc1[idLeftUp].edgeID;
@@ -821,30 +864,58 @@ int main(int argc, char* argv[])
 		swap(lenc1, lenc2);
 	}
 
-	for (Triangle tr : triangles)
+	list<Edge> result;
+	for (list<Edge>::iterator cur1 = ledges.begin(); cur1 != ledges.end(); ++cur1)
 	{
-		line(
-			outImg,
-			Point(tr.p1.x, tr.p1.y),
-			Point(tr.p2.x, tr.p2.y),
-			Scalar(123, 12, 90),
-			2,
-			8
-		);
+		bool check = true;
+		for (list<Edge>::iterator cur2 = ledges.begin(); cur2 != ledges.end(); ++cur2)
+		{
+			if (cur1 != cur2)
+			{
+				if (cur1->equal(&cur2->p1, &cur2->p2))
+				{
+					check = false;
+					break;
+				}
+			}
+		}
 
-		line(
-			outImg,
-			Point(tr.p3.x, tr.p3.y),
-			Point(tr.p2.x, tr.p2.y),
-			Scalar(123, 12, 90),
-			2,
-			8
-		);
+		if (check == true)
+		{
+			result.push_back((*cur1));
+		}
+	}
+	
+	list<Edge> ttr;
+	ttr.push_front((*result.begin()));
+	while (ttr.size() <= result.size() + 95)
+	{
+		list<Edge>::iterator cur1 = ttr.begin();
+		for (list<Edge>::iterator cur2 = result.begin(); cur2 != result.end(); ++cur2)
+		{
+			if (!cur1->equal(&cur2->p1, &cur2->p2))
+			{
+				if (cur1->p1.equal(&cur2->p1))
+				{
+					ttr.push_front(Edge(&cur2->p2, &cur2->p1));
+					break;
+				}
+				else if (cur1->p1.equal(&cur2->p2))
+				{
+					ttr.push_front(Edge(&cur2->p1, &cur2->p2));
+					break;
+				}
+			}
+		}
+	}
 
+	for (list<Edge>::iterator cur1 = result.begin(); cur1 != result.end(); ++cur1)
+	{
+		log << "[(" << cur1->p1.x << ", " << cur1->p1.y << ") - (" << cur1->p2.x << ", " << cur1->p2.y << ")]" << endl;
 		line(
 			outImg,
-			Point(tr.p3.x, tr.p3.y),
-			Point(tr.p1.x, tr.p1.y),
+			Point(cur1->p1.x, cur1->p1.y),
+			Point(cur1->p2.x, cur1->p2.y),
 			Scalar(123, 12, 90),
 			2,
 			8

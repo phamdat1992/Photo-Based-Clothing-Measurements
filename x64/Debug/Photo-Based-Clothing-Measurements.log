@@ -1,4 +1,4 @@
 ﻿  main.cpp
-C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(291,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(292,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(318,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(319,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
   Photo-Based-Clothing-Measurements.vcxproj -> C:\Projects\Photo-Based-Clothing-Measurements\x64\Debug\Photo-Based-Clothing-Measurements.exe
