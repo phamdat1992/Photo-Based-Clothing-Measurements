@@ -657,9 +657,25 @@ int main(int argc, char* argv[])
 								{
 									if (f1[idLeftDown].color == 61)
 									{
-										ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
-										ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].l, pRow)));
-										ledges.push_back(Edge(&curEdge->p2, &Point2D(f1[j].l, pRow)));
+										if (curEdge->p1.equal(&curEdge->p2))
+										{
+											//ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].l, pRow)));
+										}
+										else if (curEdge->p2.equal(f1[j].l, pRow))
+										{
+											//ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+										}
+										else if (curEdge->p1.equal(f1[j].l, pRow))
+										{
+											//ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+										}
+										else
+										{
+											ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+											ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].l, pRow)));
+											ledges.push_back(Edge(&curEdge->p2, &Point2D(f1[j].l, pRow)));
+										}
+
 										/*
 										triangles.push_back(
 											Triangle(
@@ -691,8 +707,8 @@ int main(int argc, char* argv[])
 									cc1[idLeftUp].edgeID,
 									((double)f1[j].l - bk.x) / ((double)pRow - bk.y + EPS),
 									true,
-									&Point2D(f1[j].l, pRow),
-									&bk
+									& Point2D(f1[j].l, pRow),
+									& bk
 								);
 								cc1[idLeftUp].edgeID = newEdgeId;
 							}
@@ -788,9 +804,25 @@ int main(int argc, char* argv[])
 
 									if (f1[idLeftDown].color == 61)
 									{
-										ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
-										ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].r, pRow)));
-										ledges.push_back(Edge(&curEdge->p2, &Point2D(f1[j].r, pRow)));
+										if (curEdge->p1.equal(&curEdge->p2))
+										{
+											//ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].r, pRow)));
+										}
+										else if (curEdge->p2.equal(f1[j].r, pRow))
+										{
+											//ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+										}
+										else if (curEdge->p1.equal(f1[j].r, pRow))
+										{
+											//ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+										}
+										else
+										{
+											ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+											ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].r, pRow)));
+											ledges.push_back(Edge(&curEdge->p2, &Point2D(f1[j].r, pRow)));
+										}
+										
 										/*
 										triangles.push_back(
 											Triangle(
@@ -885,10 +917,10 @@ int main(int argc, char* argv[])
 			result.push_back((*cur1));
 		}
 	}
-	
+
 	list<Edge> ttr;
 	ttr.push_front((*result.begin()));
-	while (ttr.size() <= result.size() + 95)
+	while (ttr.size() < result.size())
 	{
 		list<Edge>::iterator cur1 = ttr.begin();
 		for (list<Edge>::iterator cur2 = result.begin(); cur2 != result.end(); ++cur2)
@@ -909,19 +941,22 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	for (list<Edge>::iterator cur1 = result.begin(); cur1 != result.end(); ++cur1)
+	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
-		log << "[(" << cur1->p1.x << ", " << cur1->p1.y << ") - (" << cur1->p2.x << ", " << cur1->p2.y << ")]" << endl;
-		line(
-			outImg,
-			Point(cur1->p1.x, cur1->p1.y),
-			Point(cur1->p2.x, cur1->p2.y),
-			Scalar(123, 12, 90),
-			2,
-			8
-		);
+		//if (cur1->p1.equal(2669, 2077) || cur1->p2.equal(2669, 2077) || cur1->p1.equal(2642, 2077) || cur1->p2.equal(2642, 2077))
+		{
+			log << "[(" << cur1->p1.x << ", " << cur1->p1.y << ") - (" << cur1->p2.x << ", " << cur1->p2.y << ")]" << endl;
+			line(
+				outImg,
+				Point(cur1->p1.x, cur1->p1.y),
+				Point(cur1->p2.x, cur1->p2.y),
+				Scalar(123, 12, 90),
+				2,
+				8
+			);
+		}
 	}
-
+	
 	log.close();
 	imwrite("output.bmp", outImg);
 
