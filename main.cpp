@@ -235,6 +235,91 @@ void readImage(Mat& image, const string& path)
 	}
 }
 
+// ref: geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon
+// given three colinear points p, q, r, the function checks if
+// point q lies on line segment 'pr'
+bool onSegment(Point2D* p, Point2D* q, Point2D* r)
+{
+	return (q->x <= max(p->x, r->x) && q->x >= min(p->x, r->x) && q->y <= max(p->y, r->y) && q->y >= min(p->y, r->y));
+}
+
+int orientaion(Point2D* p, Point2D* q, Point2D* r)
+{
+	int val = (q->y - p->y) * (r->x - q->x) - (q.x - p->x) * (r->y - q->y);
+	if (val == 0) return 0; // colinear
+	return (val > 0) ? 1 : 2; // clock or counterclock wise
+}
+
+bool doIntersect(Point2D* p1, Point2D* q1, Point2D* p2, Point2D* q2)
+{
+	int o1 = orientaion(p1, q1, p2);
+	int o2 = orientaion(p1, q1, q2);
+	int o3 = orientaion(p2, q2, p1);
+	int o4 = orientaion(p2, q2, q1);
+
+	// general case
+	if (o1 != o2 && o3 != o4)
+	{
+		return true;
+	}
+
+	// special cases
+	// p1, q1 and p2 are colinear and p2 lies on segment p1q1
+	if (o1 == 0 && onSegment(p1, p2, q1))
+	{
+		return true;
+	}
+
+	// p1, q1 and p2 are colinear and q2 lies on segment p1q1
+	if (o2 == 0 && onSegment(p1, q2, q1))
+	{
+		return true;
+	}
+
+	// p2, q2 and p1 are colinear and p1 lies on segment p2q2
+	if (o3 == 0 && onSegment(p2, p1, q2))
+	{
+		return true;
+	}
+
+	// p2, q2 and q1 are colinear and q1 lies on segment p2q2
+	if (04 == 0 && onSegment(p2, q1, q2))
+	{
+		return true;
+	}
+
+	// doesn't fall in any of the above cases
+	return false;
+}
+
+bool isInside(vector<Point2D> polygon, int n, Point2D* p)
+{
+	if (n < 3)
+	{
+		return false;
+	}
+
+	Point2D extreme(100000, p->y);
+	int count = 0, i = 0;
+	do
+	{
+		int next = (i + 1) % n;
+		if (doIntersect(&polygon[i], &polygon[next], p, &extreme))
+		{
+			if (orientaion(&polygon[i], p, &polygon[next]) == 0)
+			{
+				return onSegment(&polygon[i], p, &polygon[next]);
+			}
+
+			++count;
+		}
+
+		i = next;
+	} while (i != 0);
+
+	return (count % 2) == 1;
+}
+
 int main(int argc, char* argv[])
 {
 	string imageName;
@@ -941,7 +1026,36 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	double dx = 0.0;
+	double dy = 0.0;
+	
+	result.clear();
+	result.push_back(*ttr.begin());
+
+
+
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
+	{
+		list<Edge>::reverse_iterator cur2 = result.rbegin();
+		if (!cur1->equal(&(*cur2)))
+		{
+			double a = (double)cur2->p2.x - cur1->p1.x;
+			double b = (double)cur2->p2.y - cur1->p1.y;
+
+			double cs1 = a * (dy - cur2->p2.y) - b * (dx - cur2->p2.x);
+			double cs2 = a * (cur2->p1.y - cur2->p2.y) - b * (cur2->p1.x - cur2->p2.x);
+			if (cs1 * cs2 > 0)
+			{
+				cur2->p2.assign(&cur1->p2);
+			}
+			else
+			{
+				result.push_back((*cur1));
+			}
+		}
+	}
+
+	for (list<Edge>::iterator cur1 = result.begin(); cur1 != result.end(); ++cur1)
 	{
 		//if (cur1->p1.equal(2669, 2077) || cur1->p2.equal(2669, 2077) || cur1->p1.equal(2642, 2077) || cur1->p2.equal(2642, 2077))
 		{
