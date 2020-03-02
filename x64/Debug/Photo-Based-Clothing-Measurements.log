@@ -10,4 +10,8 @@ C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1214,26): warning C4244: 
 C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1214,23): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1215,25): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1215,22): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1314,23): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1314,20): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1315,22): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1315,19): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   Photo-Based-Clothing-Measurements.vcxproj -> C:\Projects\Photo-Based-Clothing-Measurements\x64\Debug\Photo-Based-Clothing-Measurements.exe

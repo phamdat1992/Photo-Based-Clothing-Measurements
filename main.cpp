@@ -1071,11 +1071,11 @@ int main(int argc, char* argv[])
 
 				double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
 				double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
-				double a2 = (double)tmp->p2.x - (double)cur1->p1.x;
-				double b2 = (double)tmp->p2.y - (double)cur1->p2.y;
+				double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
+				double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
 
 				double cos = (a1 * a2 + b1 * b2) / (sqrt(a1 * a1 + b1 * b1) * sqrt(a2 * a2 + b2 * b2));
-				double angle = acos(cos) * 180.0 / PI;
+				double angle = acos(abs(cos)) * 180.0 / PI;
 
 				if (angle < 30.0)
 				{
@@ -1225,7 +1225,6 @@ int main(int argc, char* argv[])
 		}
 	} while (flag == true);
 
-	/*
 	flag = false;
 	do
 	{
@@ -1248,17 +1247,29 @@ int main(int argc, char* argv[])
 
 				double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
 				double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
-				double a2 = (double)tmp->p2.x - (double)cur1->p1.x;
-				double b2 = (double)tmp->p2.y - (double)cur1->p2.y;
+				double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
+				double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
+
+				double d1 = sqrt(a1 * a1 + b1 * b1);
+				double d2 = sqrt(a2 * a2 + b2 * b2);
 
 				double cos = (a1 * a2 + b1 * b2) / (sqrt(a1 * a1 + b1 * b1) * sqrt(a2 * a2 + b2 * b2));
 				double angle = acos(abs(cos)) * 180.0 / PI;
 
-				if (angle < 30.0)
+				if (angle < 10.0 && (d1/2 >= d2 || d2/2 >= d1))
 				{
-					tmp->p1.assign(&cur1->p1);
+					cur1->p2.assign(&tmp->p2);
+					ttr.erase(tmp);
+					flag = true;
+				}
+				else if (angle < 45.0 && d1/3 > d2)
+				{
+					ttr.erase(tmp);
+					flag = true;
+				}
+				else if (angle < 45.0 && d2/3 > d1)
+				{
 					cur1 = ttr.erase(cur1);
-
 					flag = true;
 				}
 				else
@@ -1269,20 +1280,54 @@ int main(int argc, char* argv[])
 		}
 
 	} while (flag == true);
-	*/
+
+	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
+	{
+		list<Edge>::iterator tmp = cur1;
+		++tmp;
+
+		if (tmp == ttr.end())
+		{
+			tmp = ttr.begin();
+		}
+
+		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
+		double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
+		double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
+		double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
+		double aa1 = b1;
+		double bb1 = -a1;
+		double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
+
+		double aa2 = b2;
+		double bb2 = -a2;
+		double cc2 = b2 * tmp->p1.x - a2 * tmp->p1.y;
+
+		double d = aa1 * bb2 - aa2 * bb1;
+		double dx = cc1 * bb2 - cc2 * bb1;
+		double dy = aa1 * cc2 - aa2 * cc1;
+
+		if (d != 0)
+		{
+			double x = dx / d;
+			double y = dy / d;
+			cur1->p2.assign(x, y);
+			tmp->p1.assign(x, y);
+		}
+	}
 
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
 		//if (cur1->p1.equal(2669, 2077) || cur1->p2.equal(2669, 2077) || cur1->p1.equal(2642, 2077) || cur1->p2.equal(2642, 2077))
 		{
 			Point centerCircle(cur1->p1.x, cur1->p1.y);
-			int radius = 5;
+			int radius = 10;
 			Scalar colorCircle(0, 0, 255);
 			circle(outImg, centerCircle, radius, colorCircle, FILLED);
 		}
 		{
 			Point centerCircle(cur1->p2.x, cur1->p2.y);
-			int radius = 5;
+			int radius = 10;
 			Scalar colorCircle(0, 0, 255);
 			circle(outImg, centerCircle, radius, colorCircle, FILLED);
 		}
@@ -1294,7 +1339,7 @@ int main(int argc, char* argv[])
 				Point(cur1->p1.x, cur1->p1.y),
 				Point(cur1->p2.x, cur1->p2.y),
 				Scalar(123, 12, 90),
-				2,
+				5,
 				8
 			);
 		}
