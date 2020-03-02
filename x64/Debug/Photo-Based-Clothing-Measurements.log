@@ -1,4 +1,13 @@
 ﻿  main.cpp
-C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(318,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(319,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(414,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(415,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1063,7): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1146,23): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1146,20): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1147,22): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1147,19): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1214,26): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1214,23): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1215,25): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Projects\Photo-Based-Clothing-Measurements\main.cpp(1215,22): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   Photo-Based-Clothing-Measurements.vcxproj -> C:\Projects\Photo-Based-Clothing-Measurements\x64\Debug\Photo-Based-Clothing-Measurements.exe

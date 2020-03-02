@@ -12,6 +12,7 @@ using namespace cv;
 
 const double ALPHA_J = 10.0;
 const double EPS = 0.001;
+const double PI = 3.14159265;
 
 class Point2D
 {
@@ -245,8 +246,13 @@ bool onSegment(Point2D* p, Point2D* q, Point2D* r)
 
 int orientaion(Point2D* p, Point2D* q, Point2D* r)
 {
-	int val = (q->y - p->y) * (r->x - q->x) - (q.x - p->x) * (r->y - q->y);
-	if (val == 0) return 0; // colinear
+	int val = (q->y - p->y) * (r->x - q->x) - (q->x - p->x) * (r->y - q->y);
+
+	if (val == 0) // colinear
+	{
+		return 0;
+	}
+
 	return (val > 0) ? 1 : 2; // clock or counterclock wise
 }
 
@@ -283,7 +289,7 @@ bool doIntersect(Point2D* p1, Point2D* q1, Point2D* p2, Point2D* q2)
 	}
 
 	// p2, q2 and q1 are colinear and q1 lies on segment p2q2
-	if (04 == 0 && onSegment(p2, q1, q2))
+	if (o4 == 0 && onSegment(p2, q1, q2))
 	{
 		return true;
 	}
@@ -299,16 +305,21 @@ bool isInside(vector<Point2D> polygon, int n, Point2D* p)
 		return false;
 	}
 
+	Point2D tmp;
+	tmp.assign(p);
+	--tmp.x;
+	--tmp.y;
+
 	Point2D extreme(100000, p->y);
 	int count = 0, i = 0;
 	do
 	{
 		int next = (i + 1) % n;
-		if (doIntersect(&polygon[i], &polygon[next], p, &extreme))
+		if (doIntersect(&polygon[i], &polygon[next], &tmp, &extreme))
 		{
-			if (orientaion(&polygon[i], p, &polygon[next]) == 0)
+			if (orientaion(&polygon[i], &tmp, &polygon[next]) == 0)
 			{
-				return onSegment(&polygon[i], p, &polygon[next]);
+				return onSegment(&polygon[i], &tmp, &polygon[next]);
 			}
 
 			++count;
@@ -576,6 +587,7 @@ int main(int argc, char* argv[])
 		}
 
 		// print keypoints
+		/*
 		for (int i = 0; i <= len1; ++i)
 		{
 			if (f1[i].pL.isVertice)
@@ -594,6 +606,7 @@ int main(int argc, char* argv[])
 				circle(outImg, centerCircle, radius, colorCircle, FILLED);
 			}
 		}
+		*/
 
 		int lenc2 = len1;
 
@@ -1026,38 +1039,254 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	double dx = 0.0;
-	double dy = 0.0;
-	
-	result.clear();
-	result.push_back(*ttr.begin());
-
-
-
-	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
+	bool flag = false;
+	do
 	{
-		list<Edge>::reverse_iterator cur2 = result.rbegin();
-		if (!cur1->equal(&(*cur2)))
+		flag = false;
+		for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
 		{
-			double a = (double)cur2->p2.x - cur1->p1.x;
-			double b = (double)cur2->p2.y - cur1->p1.y;
-
-			double cs1 = a * (dy - cur2->p2.y) - b * (dx - cur2->p2.x);
-			double cs2 = a * (cur2->p1.y - cur2->p2.y) - b * (cur2->p1.x - cur2->p2.x);
-			if (cs1 * cs2 > 0)
+			if (cur1->p2.equal(1967, 341))
 			{
-				cur2->p2.assign(&cur1->p2);
+				cout << "test";
+			}
+
+			vector<Point2D> polygon;
+			polygon.clear();
+			for (list<Edge>::iterator cur2 = ttr.begin(); cur2 != ttr.end(); ++cur2)
+			{
+				if (!cur1->equal(&(*cur2)))
+				{
+					polygon.push_back(cur2->p2);
+				}
+			}
+
+			if (isInside(polygon, polygon.size(), &cur1->p2) == true)
+			{
+				list<Edge>::iterator tmp = cur1;
+				++tmp;
+				if (tmp == ttr.end())
+				{
+					tmp = ttr.begin();
+				}
+
+				double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
+				double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
+				double a2 = (double)tmp->p2.x - (double)cur1->p1.x;
+				double b2 = (double)tmp->p2.y - (double)cur1->p2.y;
+
+				double cos = (a1 * a2 + b1 * b2) / (sqrt(a1 * a1 + b1 * b1) * sqrt(a2 * a2 + b2 * b2));
+				double angle = acos(cos) * 180.0 / PI;
+
+				if (angle < 30.0)
+				{
+					tmp->p1.assign(&cur1->p1);
+					cur1 = ttr.erase(cur1);
+
+					flag = true;
+				}
+				else
+				{
+					++cur1;
+				}
 			}
 			else
 			{
-				result.push_back((*cur1));
+				++cur1;
 			}
+		}
+
+	} while (flag == true);
+
+	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
+	{
+		double a = (double)cur1->p2.x - (double)cur1->p1.x;
+		double b = (double)cur1->p2.y - (double)cur1->p1.y;
+		double d = sqrt(a * a + b * b);
+
+		if (d < 30)
+		{
+			cur1 = ttr.erase(cur1);
+		}
+		else
+		{
+			++cur1;
 		}
 	}
 
-	for (list<Edge>::iterator cur1 = result.begin(); cur1 != result.end(); ++cur1)
+	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
+	{
+		list<Edge>::iterator tmp = cur1;
+		++tmp;
+
+		if (tmp == ttr.end())
+		{
+			tmp = ttr.begin();
+		}
+
+		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
+		double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
+		double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
+		double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
+		double aa1 = b1;
+		double bb1 = -a1;
+		double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
+
+		double aa2 = b2;
+		double bb2 = -a2;
+		double cc2 = b2 * tmp->p1.x - a2 * tmp->p1.y;
+
+		double d = aa1 * bb2 - aa2 * bb1;
+		double dx = cc1 * bb2 - cc2 * bb1;
+		double dy = aa1 * cc2 - aa2 * cc1;
+
+		if (d != 0)
+		{
+			double x = dx / d;
+			double y = dy / d;
+			cur1->p2.assign(x, y);
+			tmp->p1.assign(x, y);
+		}
+	}
+
+	do
+	{
+		flag = false;
+		for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
+		{
+			if (cur1->p2.equal(1967, 341))
+			{
+				cout << "test";
+			}
+
+			{
+				list<Edge>::iterator tmp = cur1;
+				++tmp;
+				if (tmp == ttr.end())
+				{
+					tmp = ttr.begin();
+				}
+
+				list<Edge>::iterator atm = tmp;
+				++atm;
+				if (atm == ttr.end())
+				{
+					atm = ttr.begin();
+				}
+				
+				double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
+				double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
+				double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
+				double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
+				double a3 = (double)atm->p2.x - (double)atm->p1.x;
+				double b3 = (double)atm->p2.y - (double)atm->p1.y;
+
+				double d1 = sqrt(a1 * a1 + b1 * b1);
+				double d2 = sqrt(a2 * a2 + b2 * b2);
+				double d3 = sqrt(a3 * a3 + b3 * b3);
+
+				double aa1 = b1;
+				double bb1 = -a1;
+				double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
+
+				double aa2 = b3;
+				double bb2 = -a3;
+				double cc2 = b3 * atm->p1.x - a3 * atm->p1.y;
+
+				double d = aa1 * bb2 - aa2 * bb1;
+				double dx = cc1 * bb2 - cc2 * bb1;
+				double dy = aa1 * cc2 - aa2 * cc1;
+
+				double x = dx / d;
+				double y = dy / d;
+
+				double a4 = x - (double)cur1->p1.x;
+				double b4 = y - (double)cur1->p1.y;
+				double a5 = (double)atm->p2.x - x;
+				double b5 = (double)atm->p2.y - y;
+
+				double d4 = sqrt(a4 * a4 + b4 * b4);
+				double d5 = sqrt(a5 * a5 + b5 * b5);
+
+				if (a1 * a4 >= 0 && b1 * b4 >= 0 && a3 * a5 >= 0 && b3 * b5 >= 0)
+				{
+					if (d1/2 > d2 && d3/2 > d2 && d1 <= d4 && d3 <= d5)
+					{
+						cur1->p2.assign(x, y);
+						atm->p1.assign(x, y);
+						ttr.erase(tmp);
+
+						flag = true;
+						continue;
+					}
+				}
+			}
+
+			++cur1;
+		}
+	} while (flag == true);
+
+	/*
+	flag = false;
+	do
+	{
+		flag = false;
+		for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
+		{
+			if (cur1->p2.equal(1967, 341))
+			{
+				cout << "test";
+			}
+
+			
+			{
+				list<Edge>::iterator tmp = cur1;
+				++tmp;
+				if (tmp == ttr.end())
+				{
+					tmp = ttr.begin();
+				}
+
+				double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
+				double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
+				double a2 = (double)tmp->p2.x - (double)cur1->p1.x;
+				double b2 = (double)tmp->p2.y - (double)cur1->p2.y;
+
+				double cos = (a1 * a2 + b1 * b2) / (sqrt(a1 * a1 + b1 * b1) * sqrt(a2 * a2 + b2 * b2));
+				double angle = acos(abs(cos)) * 180.0 / PI;
+
+				if (angle < 30.0)
+				{
+					tmp->p1.assign(&cur1->p1);
+					cur1 = ttr.erase(cur1);
+
+					flag = true;
+				}
+				else
+				{
+					++cur1;
+				}
+			}
+		}
+
+	} while (flag == true);
+	*/
+
+	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
 		//if (cur1->p1.equal(2669, 2077) || cur1->p2.equal(2669, 2077) || cur1->p1.equal(2642, 2077) || cur1->p2.equal(2642, 2077))
+		{
+			Point centerCircle(cur1->p1.x, cur1->p1.y);
+			int radius = 5;
+			Scalar colorCircle(0, 0, 255);
+			circle(outImg, centerCircle, radius, colorCircle, FILLED);
+		}
+		{
+			Point centerCircle(cur1->p2.x, cur1->p2.y);
+			int radius = 5;
+			Scalar colorCircle(0, 0, 255);
+			circle(outImg, centerCircle, radius, colorCircle, FILLED);
+		}
+
 		{
 			log << "[(" << cur1->p1.x << ", " << cur1->p1.y << ") - (" << cur1->p2.x << ", " << cur1->p2.y << ")]" << endl;
 			line(
