@@ -148,6 +148,27 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="cluster.bmp" />
+    <Image Include="datas\a1-1.jpg" />
+    <Image Include="datas\a1-2.jpg" />
+    <Image Include="datas\a1-3.jpg" />
+    <Image Include="datas\a2-1.jpg" />
+    <Image Include="datas\a2-2.jpg" />
+    <Image Include="datas\a2-3.jpg" />
+    <Image Include="datas\a3-1.jpg" />
+    <Image Include="datas\a3-2.jpg" />
+    <Image Include="datas\a3-3.jpg" />
+    <Image Include="datas\a3-4.jpg" />
+    <Image Include="datas\bg1.jpg" />
+    <Image Include="datas\bg10.jpg" />
+    <Image Include="datas\bg11.jpg" />
+    <Image Include="datas\bg2.jpg" />
+    <Image Include="datas\bg3.jpg" />
+    <Image Include="datas\bg4.jpg" />
+    <Image Include="datas\bg5.jpg" />
+    <Image Include="datas\bg6.jpg" />
+    <Image Include="datas\bg7.jpg" />
+    <Image Include="datas\bg8.jpg" />
+    <Image Include="datas\bg9.jpg" />
     <Image Include="output.bmp" />
   </ItemGroup>
   <ItemGroup>
