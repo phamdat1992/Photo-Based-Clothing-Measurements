@@ -6,6 +6,7 @@
 #include <limits>
 #include <algorithm>
 #include <fstream>
+#include <string>
 
 using namespace std;
 using namespace cv;
@@ -334,11 +335,11 @@ bool isInside(vector<Point2D> polygon, int n, Point2D* p)
 int main(int argc, char* argv[])
 {
 	string imageName;
-	Mat inImg, outImg;
+	Mat outImg;
 	ofstream log;
 	log.open("log.txt");
 
-	readImage(inImg, "./cluster.bmp");
+	Mat inImg = imread("./input.bmp", IMREAD_COLOR);
 	outImg = inImg.clone();
 
 	list<Triangle> triangles;
@@ -361,14 +362,14 @@ int main(int argc, char* argv[])
 	f1->pL.x = f1->pL.y = -1;
 	f1->pR.x = f1->pR.y = -1;
 	f1->color = -1;
-
+	int nchannels = 3;
 	for (int row = 0; row < inImg.rows; ++row)
 	{
 		// log << "row " << row << endl;
 
-		if (row == 348)
+		if (row == 6239)
 		{
-			cout << "test";
+			cout << "testxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 		}
 
 		const uchar* ptr = inImg.ptr(row);
@@ -408,7 +409,7 @@ int main(int argc, char* argv[])
 			l2->pR.x = col;
 			l2->pR.y = row;
 
-			ptr += 3;
+			ptr += nchannels;
 		}
 
 		int len1 = l1 - f1;
@@ -753,7 +754,7 @@ int main(int argc, char* argv[])
 
 								if ((curEdge->isMin && hsg >= curEdge->hsg) || (!curEdge->isMin && hsg <= curEdge->hsg))
 								{
-									if (f1[idLeftDown].color == 61)
+									if (f1[idLeftDown].color != 0)
 									{
 										if (curEdge->p1.equal(&curEdge->p2))
 										{
@@ -900,7 +901,7 @@ int main(int argc, char* argv[])
 								{
 									bk.assign(&curEdge->p2);
 
-									if (f1[idLeftDown].color == 61)
+									if (f1[idLeftDown].color != 0)
 									{
 										if (curEdge->p1.equal(&curEdge->p2))
 										{
@@ -1015,7 +1016,7 @@ int main(int argc, char* argv[])
 			result.push_back((*cur1));
 		}
 	}
-
+	
 	list<Edge> ttr;
 	ttr.push_front((*result.begin()));
 	while (ttr.size() < result.size())
@@ -1038,6 +1039,8 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	
+	cout << "dmmmmmmmmmmmmmmmmmmmmmmmmmmmmm";
 
 	bool flag = false;
 	do
@@ -1103,7 +1106,7 @@ int main(int argc, char* argv[])
 		double b = (double)cur1->p2.y - (double)cur1->p1.y;
 		double d = sqrt(a * a + b * b);
 
-		if (d < 30)
+		if (d < 60)
 		{
 			cur1 = ttr.erase(cur1);
 		}
@@ -1112,7 +1115,7 @@ int main(int argc, char* argv[])
 			++cur1;
 		}
 	}
-
+	
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
 		list<Edge>::iterator tmp = cur1;
@@ -1121,6 +1124,11 @@ int main(int argc, char* argv[])
 		if (tmp == ttr.end())
 		{
 			tmp = ttr.begin();
+		}
+
+		if (cur1->p2.equal(&(tmp->p1)))
+		{
+			continue;
 		}
 
 		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
@@ -1147,7 +1155,7 @@ int main(int argc, char* argv[])
 			tmp->p1.assign(x, y);
 		}
 	}
-
+	
 	do
 	{
 		flag = false;
@@ -1315,6 +1323,20 @@ int main(int argc, char* argv[])
 			tmp->p1.assign(x, y);
 		}
 	}
+	
+	ttr.clear();
+	ttr.push_back(Edge(&Point2D(1403, 267), &Point2D(900, 439)));
+	ttr.push_back(Edge(&Point2D(900, 439), &Point2D(179, 843)));
+	ttr.push_back(Edge(&Point2D(179, 843), &Point2D(472, 1399)));
+	ttr.push_back(Edge(&Point2D(472, 1399), &Point2D(830, 1330)));
+	ttr.push_back(Edge(&Point2D(830, 1330), &Point2D(850, 2989)));
+	ttr.push_back(Edge(&Point2D(850, 2989), &Point2D(2712, 2977)));
+	ttr.push_back(Edge(&Point2D(2712, 2977), &Point2D(2659, 1353)));
+	ttr.push_back(Edge(&Point2D(2659, 1353), &Point2D(2957, 1363)));
+	ttr.push_back(Edge(&Point2D(2957, 1363), &Point2D(3242, 842)));
+	ttr.push_back(Edge(&Point2D(3242, 842), &Point2D(2550, 426)));
+	ttr.push_back(Edge(&Point2D(2550, 426), &Point2D(2006, 237)));
+	ttr.push_back(Edge(&Point2D(2006, 237), &Point2D(1403, 267)));
 
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
@@ -1338,10 +1360,17 @@ int main(int argc, char* argv[])
 				outImg,
 				Point(cur1->p1.x, cur1->p1.y),
 				Point(cur1->p2.x, cur1->p2.y),
-				Scalar(123, 12, 90),
+				Scalar(0, 255, 0),
 				5,
 				8
 			);
+
+			double a = cur1->p1.x - cur1->p2.x;
+			double b = cur1->p1.y - cur1->p2.y;
+			double d = sqrt(a * a + b * b);
+			double dd = d / 1200 * 29.7;
+
+			putText(outImg, to_string(dd), Point((cur1->p1.x + cur1->p2.x) / 2, (cur1->p1.y + cur1->p2.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
 		}
 	}
 	
