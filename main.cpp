@@ -1040,6 +1040,7 @@ int main(int argc, char* argv[])
 		}
 	}
 	
+	/*
 	cout << "dmmmmmmmmmmmmmmmmmmmmmmmmmmmmm";
 
 	bool flag = false;
@@ -1048,11 +1049,6 @@ int main(int argc, char* argv[])
 		flag = false;
 		for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
 		{
-			if (cur1->p2.equal(1967, 341))
-			{
-				cout << "test";
-			}
-
 			vector<Point2D> polygon;
 			polygon.clear();
 			for (list<Edge>::iterator cur2 = ttr.begin(); cur2 != ttr.end(); ++cur2)
@@ -1080,7 +1076,7 @@ int main(int argc, char* argv[])
 				double cos = (a1 * a2 + b1 * b2) / (sqrt(a1 * a1 + b1 * b1) * sqrt(a2 * a2 + b2 * b2));
 				double angle = acos(abs(cos)) * 180.0 / PI;
 
-				if (angle < 30.0)
+				if (angle < 15.0)
 				{
 					tmp->p1.assign(&cur1->p1);
 					cur1 = ttr.erase(cur1);
@@ -1099,7 +1095,8 @@ int main(int argc, char* argv[])
 		}
 
 	} while (flag == true);
-
+	*/
+	/*
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
 	{
 		double a = (double)cur1->p2.x - (double)cur1->p1.x;
@@ -1115,7 +1112,9 @@ int main(int argc, char* argv[])
 			++cur1;
 		}
 	}
+	*/
 	
+	/*
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
 		list<Edge>::iterator tmp = cur1;
@@ -1155,7 +1154,9 @@ int main(int argc, char* argv[])
 			tmp->p1.assign(x, y);
 		}
 	}
+	*/
 	
+	/*
 	do
 	{
 		flag = false;
@@ -1232,7 +1233,9 @@ int main(int argc, char* argv[])
 			++cur1;
 		}
 	} while (flag == true);
+	*/
 
+	/*
 	flag = false;
 	do
 	{
@@ -1288,7 +1291,9 @@ int main(int argc, char* argv[])
 		}
 
 	} while (flag == true);
+	*/
 
+	/*
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
 		list<Edge>::iterator tmp = cur1;
@@ -1323,7 +1328,9 @@ int main(int argc, char* argv[])
 			tmp->p1.assign(x, y);
 		}
 	}
-	
+	*/
+
+	/*
 	ttr.clear();
 	ttr.push_back(Edge(&Point2D(1403, 267), &Point2D(900, 439)));
 	ttr.push_back(Edge(&Point2D(900, 439), &Point2D(179, 843)));
@@ -1337,6 +1344,7 @@ int main(int argc, char* argv[])
 	ttr.push_back(Edge(&Point2D(3242, 842), &Point2D(2550, 426)));
 	ttr.push_back(Edge(&Point2D(2550, 426), &Point2D(2006, 237)));
 	ttr.push_back(Edge(&Point2D(2006, 237), &Point2D(1403, 267)));
+	*/
 
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
@@ -1349,7 +1357,7 @@ int main(int argc, char* argv[])
 		}
 		{
 			Point centerCircle(cur1->p2.x, cur1->p2.y);
-			int radius = 10;
+			int radius = 15;
 			Scalar colorCircle(0, 0, 255);
 			circle(outImg, centerCircle, radius, colorCircle, FILLED);
 		}
@@ -1361,16 +1369,18 @@ int main(int argc, char* argv[])
 				Point(cur1->p1.x, cur1->p1.y),
 				Point(cur1->p2.x, cur1->p2.y),
 				Scalar(0, 255, 0),
-				5,
+				10,
 				8
 			);
 
+			/*
 			double a = cur1->p1.x - cur1->p2.x;
 			double b = cur1->p1.y - cur1->p2.y;
 			double d = sqrt(a * a + b * b);
 			double dd = d / 1200 * 29.7;
 
 			putText(outImg, to_string(dd), Point((cur1->p1.x + cur1->p2.x) / 2, (cur1->p1.y + cur1->p2.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+			*/
 		}
 	}
 	
