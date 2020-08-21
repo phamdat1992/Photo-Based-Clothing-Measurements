@@ -89,6 +89,9 @@
     <Image Include="datas\bg11.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="input.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt" />

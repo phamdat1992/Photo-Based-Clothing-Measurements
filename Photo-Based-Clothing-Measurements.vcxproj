@@ -169,6 +169,7 @@
     <Image Include="datas\bg7.jpg" />
     <Image Include="datas\bg8.jpg" />
     <Image Include="datas\bg9.jpg" />
+    <Image Include="input.bmp" />
     <Image Include="output.bmp" />
   </ItemGroup>
   <ItemGroup>

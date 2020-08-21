@@ -58,6 +58,18 @@ public:
 	{
 		return (this->x == x && this->y == y);
 	}
+
+	double distance(int x, int y)
+	{
+		double dx = double(this->x - x);
+		double dy = double(this->y - y);
+		return sqrt(dx * dx + dy * dy);
+	}
+
+	double distance(Point2D* p)
+	{
+		return this->distance(p->x, p->y);
+	}
 };
 
 class ColorNode
@@ -367,10 +379,10 @@ int main(int argc, char* argv[])
 	{
 		// log << "row " << row << endl;
 
-		if (row == 6239)
+		/*if (row == 6239)
 		{
 			cout << "testxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-		}
+		}*/
 
 		const uchar* ptr = inImg.ptr(row);
 
@@ -1039,316 +1051,130 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	
-	/*
-	cout << "dmmmmmmmmmmmmmmmmmmmmmmmmmmmmm";
 
-	bool flag = false;
-	do
+	Point2D pointMax, pointMin;
+
+	pointMax.assign(0, 0);
+	pointMin.assign(inImg.cols - 1, 0);
+
+	int loop = inImg.rows / 2;
+	for (int row = 0; row < loop; ++row)
 	{
-		flag = false;
-		for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
+		const uchar* ptr = inImg.ptr(row);
+		for (int col = 0; col < inImg.cols; ++col)
 		{
-			vector<Point2D> polygon;
-			polygon.clear();
-			for (list<Edge>::iterator cur2 = ttr.begin(); cur2 != ttr.end(); ++cur2)
+			int cc = *ptr;
+			//cout << cc;
+			if (cc != 0)
 			{
-				if (!cur1->equal(&(*cur2)))
+				// cout << "dcm";
+				if (col > pointMax.x)
 				{
-					polygon.push_back(cur2->p2);
+					pointMax.assign(col, row);
+				}
+				if (col < pointMin.x)
+				{
+					pointMin.assign(col, row);
 				}
 			}
 
-			if (isInside(polygon, polygon.size(), &cur1->p2) == true)
-			{
-				list<Edge>::iterator tmp = cur1;
-				++tmp;
-				if (tmp == ttr.end())
-				{
-					tmp = ttr.begin();
-				}
-
-				double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
-				double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
-				double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
-				double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
-
-				double cos = (a1 * a2 + b1 * b2) / (sqrt(a1 * a1 + b1 * b1) * sqrt(a2 * a2 + b2 * b2));
-				double angle = acos(abs(cos)) * 180.0 / PI;
-
-				if (angle < 15.0)
-				{
-					tmp->p1.assign(&cur1->p1);
-					cur1 = ttr.erase(cur1);
-
-					flag = true;
-				}
-				else
-				{
-					++cur1;
-				}
-			}
-			else
-			{
-				++cur1;
-			}
-		}
-
-	} while (flag == true);
-	*/
-	/*
-	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
-	{
-		double a = (double)cur1->p2.x - (double)cur1->p1.x;
-		double b = (double)cur1->p2.y - (double)cur1->p1.y;
-		double d = sqrt(a * a + b * b);
-
-		if (d < 60)
-		{
-			cur1 = ttr.erase(cur1);
-		}
-		else
-		{
-			++cur1;
+			ptr += nchannels;
 		}
 	}
-	*/
-	
-	/*
+
+	int radius = 15;
+	Scalar colorCircle(0, 0, 255);
+
+	Point centerCircle1(pointMin.x, pointMin.y);
+	circle(outImg, centerCircle1, radius, colorCircle, FILLED);
+
+	Point centerCircle2(pointMax.x, pointMax.y);
+	circle(outImg, centerCircle2, radius, colorCircle, FILLED);
+
+	double d1 = numeric_limits<double>::max();
+	double d2 = numeric_limits<double>::max();
+
+	list<Edge>::iterator dx1, dx2;
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
-		list<Edge>::iterator tmp = cur1;
-		++tmp;
+		double dis1 = cur1->p1.distance(&pointMin);
+		double dis2 = cur1->p1.distance(&pointMax);
 
-		if (tmp == ttr.end())
+		if (dis1 < d1)
 		{
-			tmp = ttr.begin();
+			d1 = dis1;
+			dx1 = cur1;
 		}
 
-		if (cur1->p2.equal(&(tmp->p1)))
+		if (dis2 < d2)
 		{
-			continue;
-		}
-
-		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
-		double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
-		double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
-		double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
-		double aa1 = b1;
-		double bb1 = -a1;
-		double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
-
-		double aa2 = b2;
-		double bb2 = -a2;
-		double cc2 = b2 * tmp->p1.x - a2 * tmp->p1.y;
-
-		double d = aa1 * bb2 - aa2 * bb1;
-		double dx = cc1 * bb2 - cc2 * bb1;
-		double dy = aa1 * cc2 - aa2 * cc1;
-
-		if (d != 0)
-		{
-			double x = dx / d;
-			double y = dy / d;
-			cur1->p2.assign(x, y);
-			tmp->p1.assign(x, y);
+			d2 = dis2;
+			dx2 = cur1;
 		}
 	}
-	*/
-	
-	/*
-	do
+
+	Point2D coAoL, coAoR;
+	if (dx1->p1.y >= dx1->p2.y)
 	{
-		flag = false;
-		for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
+		while (dx1->p1.y >= dx1->p2.y)
 		{
-			if (cur1->p2.equal(1967, 341))
+			coAoL.assign(&dx1->p2);
+			++dx1;
+			if (dx1 == ttr.end())
 			{
-				cout << "test";
-			}
-
-			{
-				list<Edge>::iterator tmp = cur1;
-				++tmp;
-				if (tmp == ttr.end())
-				{
-					tmp = ttr.begin();
-				}
-
-				list<Edge>::iterator atm = tmp;
-				++atm;
-				if (atm == ttr.end())
-				{
-					atm = ttr.begin();
-				}
-				
-				double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
-				double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
-				double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
-				double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
-				double a3 = (double)atm->p2.x - (double)atm->p1.x;
-				double b3 = (double)atm->p2.y - (double)atm->p1.y;
-
-				double d1 = sqrt(a1 * a1 + b1 * b1);
-				double d2 = sqrt(a2 * a2 + b2 * b2);
-				double d3 = sqrt(a3 * a3 + b3 * b3);
-
-				double aa1 = b1;
-				double bb1 = -a1;
-				double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
-
-				double aa2 = b3;
-				double bb2 = -a3;
-				double cc2 = b3 * atm->p1.x - a3 * atm->p1.y;
-
-				double d = aa1 * bb2 - aa2 * bb1;
-				double dx = cc1 * bb2 - cc2 * bb1;
-				double dy = aa1 * cc2 - aa2 * cc1;
-
-				double x = dx / d;
-				double y = dy / d;
-
-				double a4 = x - (double)cur1->p1.x;
-				double b4 = y - (double)cur1->p1.y;
-				double a5 = (double)atm->p2.x - x;
-				double b5 = (double)atm->p2.y - y;
-
-				double d4 = sqrt(a4 * a4 + b4 * b4);
-				double d5 = sqrt(a5 * a5 + b5 * b5);
-
-				if (a1 * a4 >= 0 && b1 * b4 >= 0 && a3 * a5 >= 0 && b3 * b5 >= 0)
-				{
-					if (d1/2 > d2 && d3/2 > d2 && d1 <= d4 && d3 <= d5)
-					{
-						cur1->p2.assign(x, y);
-						atm->p1.assign(x, y);
-						ttr.erase(tmp);
-
-						flag = true;
-						continue;
-					}
-				}
-			}
-
-			++cur1;
-		}
-	} while (flag == true);
-	*/
-
-	/*
-	flag = false;
-	do
-	{
-		flag = false;
-		for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end();)
-		{
-			if (cur1->p2.equal(1967, 341))
-			{
-				cout << "test";
-			}
-
-			
-			{
-				list<Edge>::iterator tmp = cur1;
-				++tmp;
-				if (tmp == ttr.end())
-				{
-					tmp = ttr.begin();
-				}
-
-				double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
-				double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
-				double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
-				double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
-
-				double d1 = sqrt(a1 * a1 + b1 * b1);
-				double d2 = sqrt(a2 * a2 + b2 * b2);
-
-				double cos = (a1 * a2 + b1 * b2) / (sqrt(a1 * a1 + b1 * b1) * sqrt(a2 * a2 + b2 * b2));
-				double angle = acos(abs(cos)) * 180.0 / PI;
-
-				if (angle < 10.0 && (d1/2 >= d2 || d2/2 >= d1))
-				{
-					cur1->p2.assign(&tmp->p2);
-					ttr.erase(tmp);
-					flag = true;
-				}
-				else if (angle < 45.0 && d1/3 > d2)
-				{
-					ttr.erase(tmp);
-					flag = true;
-				}
-				else if (angle < 45.0 && d2/3 > d1)
-				{
-					cur1 = ttr.erase(cur1);
-					flag = true;
-				}
-				else
-				{
-					++cur1;
-				}
+				dx1 = ttr.begin();
 			}
 		}
+	}
+	else
+	{
+		while (dx1->p1.y < dx1->p2.y)
+		{
+			coAoL.assign(&dx1->p1);
+			if (dx1 == ttr.begin())
+			{
+				dx1 = ttr.end();
+			}
 
-	} while (flag == true);
-	*/
+			--dx1;
+		}
+	}
+
+	if (dx2->p1.y >= dx2->p2.y)
+	{
+		while (dx2->p1.y >= dx2->p2.y)
+		{
+			coAoR.assign(&dx2->p2);
+			++dx2;
+			if (dx2 == ttr.end())
+			{
+				dx2 = ttr.begin();
+			}
+		}
+	}
+	else
+	{
+		while (dx2->p1.y < dx2->p2.y)
+		{
+			coAoR.assign(&dx2->p1);
+			if (dx2 == ttr.begin())
+			{
+				dx2 = ttr.end();
+			}
+
+			--dx2;
+		}
+	}
+
+	Point centerCircle3(coAoL.x, coAoL.y);
+	circle(outImg, centerCircle3, radius, colorCircle, FILLED);
+
+	Point centerCircle4(coAoR.x, coAoR.y);
+	circle(outImg, centerCircle4, radius, colorCircle, FILLED);
 
 	/*
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
-		list<Edge>::iterator tmp = cur1;
-		++tmp;
-
-		if (tmp == ttr.end())
-		{
-			tmp = ttr.begin();
-		}
-
-		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
-		double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
-		double a2 = (double)tmp->p2.x - (double)tmp->p1.x;
-		double b2 = (double)tmp->p2.y - (double)tmp->p1.y;
-		double aa1 = b1;
-		double bb1 = -a1;
-		double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
-
-		double aa2 = b2;
-		double bb2 = -a2;
-		double cc2 = b2 * tmp->p1.x - a2 * tmp->p1.y;
-
-		double d = aa1 * bb2 - aa2 * bb1;
-		double dx = cc1 * bb2 - cc2 * bb1;
-		double dy = aa1 * cc2 - aa2 * cc1;
-
-		if (d != 0)
-		{
-			double x = dx / d;
-			double y = dy / d;
-			cur1->p2.assign(x, y);
-			tmp->p1.assign(x, y);
-		}
-	}
-	*/
-
-	/*
-	ttr.clear();
-	ttr.push_back(Edge(&Point2D(1403, 267), &Point2D(900, 439)));
-	ttr.push_back(Edge(&Point2D(900, 439), &Point2D(179, 843)));
-	ttr.push_back(Edge(&Point2D(179, 843), &Point2D(472, 1399)));
-	ttr.push_back(Edge(&Point2D(472, 1399), &Point2D(830, 1330)));
-	ttr.push_back(Edge(&Point2D(830, 1330), &Point2D(850, 2989)));
-	ttr.push_back(Edge(&Point2D(850, 2989), &Point2D(2712, 2977)));
-	ttr.push_back(Edge(&Point2D(2712, 2977), &Point2D(2659, 1353)));
-	ttr.push_back(Edge(&Point2D(2659, 1353), &Point2D(2957, 1363)));
-	ttr.push_back(Edge(&Point2D(2957, 1363), &Point2D(3242, 842)));
-	ttr.push_back(Edge(&Point2D(3242, 842), &Point2D(2550, 426)));
-	ttr.push_back(Edge(&Point2D(2550, 426), &Point2D(2006, 237)));
-	ttr.push_back(Edge(&Point2D(2006, 237), &Point2D(1403, 267)));
-	*/
-
-	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
-	{
-		//if (cur1->p1.equal(2669, 2077) || cur1->p2.equal(2669, 2077) || cur1->p1.equal(2642, 2077) || cur1->p2.equal(2642, 2077))
 		{
 			Point centerCircle(cur1->p1.x, cur1->p1.y);
 			int radius = 10;
@@ -1372,17 +1198,9 @@ int main(int argc, char* argv[])
 				10,
 				8
 			);
-
-			/*
-			double a = cur1->p1.x - cur1->p2.x;
-			double b = cur1->p1.y - cur1->p2.y;
-			double d = sqrt(a * a + b * b);
-			double dd = d / 1200 * 29.7;
-
-			putText(outImg, to_string(dd), Point((cur1->p1.x + cur1->p2.x) / 2, (cur1->p1.y + cur1->p2.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
-			*/
 		}
 	}
+	*/
 	
 	log.close();
 	imwrite("output.bmp", outImg);
