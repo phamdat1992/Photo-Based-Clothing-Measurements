@@ -1172,6 +1172,101 @@ int main(int argc, char* argv[])
 	Point centerCircle4(coAoR.x, coAoR.y);
 	circle(outImg, centerCircle4, radius, colorCircle, FILLED);
 
+	int center = inImg.rows - (inImg.rows / 3);
+	dx1 = ttr.end();
+	dx2 = ttr.end();
+	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
+	{
+		if ((cur1->p1.y >= center && cur1->p2.y <= center) || (cur1->p1.y <= center && cur1->p2.y >= center))
+		{
+			if (dx1 == ttr.end())
+			{
+				dx1 = cur1;
+			}
+			else
+			{
+				dx2 = cur1;
+			}
+		}
+	}
+
+	if (dx1->p1.x > dx2->p1.x)
+	{
+		swap(dx1, dx2);
+	}
+
+	Point2D nachL, nachR;
+
+	if (dx1->p1.y >= dx1->p2.y)
+	{
+		int dx = 0, dy = 0;
+		do {
+			nachL.assign(dx1->p2.x, dx1->p2.y);
+			++dx1;
+			if (dx1 == ttr.end())
+			{
+				dx1 = ttr.begin();
+			}
+
+			dx = abs(dx1->p1.x - dx1->p2.x);
+			dy = dx1->p1.y - dx1->p2.y;
+		} while (dx < dy);
+	}
+	else
+	{
+		int dx = 0, dy = 0;
+		do {
+			nachL.assign(dx1->p1.x, dx1->p1.y);
+			if (dx1 == ttr.begin())
+			{
+				dx1 = ttr.end();
+			}
+			--dx1;
+
+			dx = abs(dx1->p2.x - dx1->p1.x);
+			dy = dx1->p2.y - dx1->p1.y;
+		} while (dx < dy);
+	}
+
+	if (dx2->p1.y >= dx2->p2.y)
+	{
+		int dx = 0, dy = 0;
+		do {
+			nachR.assign(dx2->p2.x, dx2->p2.y);
+			++dx2;
+			if (dx2 == ttr.end())
+			{
+				dx2 = ttr.begin();
+			}
+
+			dx = abs(dx2->p1.x - dx2->p2.x);
+			dy = dx2->p1.y - dx2->p2.y;
+		} while (dx < dy);
+	}
+	else
+	{
+		int dx = 0, dy = 0;
+		do {
+			nachR.assign(dx2->p1.x, dx2->p1.y);
+			if (dx2 == ttr.begin())
+			{
+				dx2 = ttr.end();
+			}
+			--dx2;
+
+			dx = abs(dx2->p2.x - dx2->p1.x);
+			dy = dx2->p2.y - dx2->p1.y;
+		} while (dx < dy);
+	}
+
+	Point centerCircle5(nachL.x, nachL.y);
+	circle(outImg, centerCircle5, radius, colorCircle, FILLED);
+
+	Point centerCircle6(nachR.x, nachR.y);
+	circle(outImg, centerCircle6, radius, colorCircle, FILLED);
+
+
+
 	/*
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
