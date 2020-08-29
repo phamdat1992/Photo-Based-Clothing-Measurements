@@ -1268,42 +1268,264 @@ int main(int argc, char* argv[])
 	// pointMin pointMax
 	// coAoL coAoR
 	// nachL nachR
-
+	Point2D vaiL, vaiR;
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
+		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
+		double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
+		double a2 = (double)0.0;
+		double b2 = (double)10.0;
+		double aa1 = b1;
+		double bb1 = -a1;
+		double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
+		double aa2 = b2;
+		double bb2 = -a2;
+		double cc2 = b2 * nachL.x - a2 * nachL.y;
+		double d = aa1 * bb2 - aa2 * bb1;
+		double dx = cc1 * bb2 - cc2 * bb1;
+		double dy = aa1 * cc2 - aa2 * cc1;
+		if (d != 0)
+		{
+			double x = dx / d;
+			double y = dy / d;
+			
+			if (y < nachL.y && ((cur1->p1.x <= x && x <= cur1->p2.x) || (cur1->p2.x <= x && x <= cur1->p1.x)) && ((cur1->p1.y <= y && y <= cur1->p2.y) || (cur1->p2.y <= y && y <= cur1->p1.y)))
+			{
+				vaiL.assign(x, y);
+			}
+		}
 
+		a1 = (double)cur1->p2.x - (double)cur1->p1.x;
+		b1 = (double)cur1->p2.y - (double)cur1->p1.y;
+		a2 = (double)0.0;
+		b2 = (double)10.0;
+		aa1 = b1;
+		bb1 = -a1;
+		cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
+		aa2 = b2;
+		bb2 = -a2;
+		cc2 = b2 * nachR.x - a2 * nachR.y;
+		d = aa1 * bb2 - aa2 * bb1;
+		dx = cc1 * bb2 - cc2 * bb1;
+		dy = aa1 * cc2 - aa2 * cc1;
+		if (d != 0)
+		{
+			double x = dx / d;
+			double y = dy / d;
+
+			if (y < nachR.y && ((cur1->p1.x <= x && x <= cur1->p2.x) || (cur1->p2.x <= x && x <= cur1->p1.x)) && ((cur1->p1.y <= y && y <= cur1->p2.y) || (cur1->p2.y <= y && y <= cur1->p1.y)))
+			{
+				vaiR.assign(x, y);
+			}
+		}
 	}
 
-	/*
+	Point centerCircle7(vaiL.x, vaiL.y);
+	circle(outImg, centerCircle7, radius, colorCircle, FILLED);
+
+	Point centerCircle8(vaiR.x, vaiR.y);
+	circle(outImg, centerCircle8, radius, colorCircle, FILLED);
+
+	// pointMin pointMax
+	// coAoL coAoR
+	// nachL nachR
+	// vaiL vaiR
+
+	double tb1 = (double)(pointMin.x + pointMax.x) / 2.0;
+	double tb2 = (double)(coAoL.x + coAoR.x) / 2.0;
+	double tb3 = (double)(nachL.x + nachR.x) / 2.0;
+	double tb4 = (double)(vaiL.x + vaiR.x) / 2.0;
+
+	double tb = (tb1 + tb2 + tb3 + tb4) / 4.0;
+
+	Point2D pointTop(0, inImg.rows), pointLow;
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
+		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
+		double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
+		double a2 = (double)0.0;
+		double b2 = (double)10.0;
+		double aa1 = b1;
+		double bb1 = -a1;
+		double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
+		double aa2 = b2;
+		double bb2 = -a2;
+		double cc2 = b2 * tb - a2 * 1.0;
+		double d = aa1 * bb2 - aa2 * bb1;
+		double dx = cc1 * bb2 - cc2 * bb1;
+		double dy = aa1 * cc2 - aa2 * cc1;
+		if (d != 0)
 		{
-			Point centerCircle(cur1->p1.x, cur1->p1.y);
-			int radius = 10;
-			Scalar colorCircle(0, 0, 255);
-			circle(outImg, centerCircle, radius, colorCircle, FILLED);
-		}
-		{
-			Point centerCircle(cur1->p2.x, cur1->p2.y);
-			int radius = 15;
-			Scalar colorCircle(0, 0, 255);
-			circle(outImg, centerCircle, radius, colorCircle, FILLED);
-		}
+			double x = dx / d;
+			double y = dy / d;
 
-		{
-			log << "[(" << cur1->p1.x << ", " << cur1->p1.y << ") - (" << cur1->p2.x << ", " << cur1->p2.y << ")]" << endl;
-			line(
-				outImg,
-				Point(cur1->p1.x, cur1->p1.y),
-				Point(cur1->p2.x, cur1->p2.y),
-				Scalar(0, 255, 0),
-				10,
-				8
-			);
+			if (((cur1->p1.x <= x && x <= cur1->p2.x) || (cur1->p2.x <= x && x <= cur1->p1.x)) && ((cur1->p1.y <= y && y <= cur1->p2.y) || (cur1->p2.y <= y && y <= cur1->p1.y)))
+			{
+				if (y < pointTop.y)
+				{
+					pointTop.assign(x, y);
+				}
+
+				if (y > pointLow.y)
+				{
+					pointLow.assign(x, y);
+				}
+			}
 		}
 	}
-	*/
 	
+	Point centerCircle9(pointTop.x, pointTop.y);
+	circle(outImg, centerCircle9, radius, colorCircle, FILLED);
+
+	Point centerCircle10(pointLow.x, pointLow.y);
+	circle(outImg, centerCircle10, radius, colorCircle, FILLED);
+
+	// pointMin pointMax
+	// coAoL coAoR
+	// nachL nachR
+	// vaiL vaiR
+	// pointTop pointLow
+
+	Point2D eoL(inImg.cols, 0), eoR;
+	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
+	{
+		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
+		double b1 = (double)cur1->p2.y - (double)cur1->p1.y;
+		double a2 = (double)10.0;
+		double b2 = (double)0.0;
+		double aa1 = b1;
+		double bb1 = -a1;
+		double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
+		double aa2 = b2;
+		double bb2 = -a2;
+		double cc2 = b2 * 1.0 - a2 * (inImg.rows - (inImg.rows / 3));
+		double d = aa1 * bb2 - aa2 * bb1;
+		double dx = cc1 * bb2 - cc2 * bb1;
+		double dy = aa1 * cc2 - aa2 * cc1;
+		if (d != 0)
+		{
+			double x = dx / d;
+			double y = dy / d;
+
+			if (((cur1->p1.x <= x && x <= cur1->p2.x) || (cur1->p2.x <= x && x <= cur1->p1.x)) && ((cur1->p1.y <= y && y <= cur1->p2.y) || (cur1->p2.y <= y && y <= cur1->p1.y)))
+			{
+				if (x < eoL.x)
+				{
+					eoL.assign(x, y);
+				}
+
+				if (x > eoR.x)
+				{
+					eoR.assign(x, y);
+				}
+			}
+		}
+	}
+
+	Point centerCircle11(eoL.x, eoL.y);
+	circle(outImg, centerCircle11, radius, colorCircle, FILLED);
+
+	Point centerCircle12(eoR.x, eoR.y);
+	circle(outImg, centerCircle12, radius, colorCircle, FILLED);
+
+	// pointMin pointMax
+	// coAoL coAoR
+	// nachL nachR
+	// vaiL vaiR
+	// pointTop pointLow
+	// eoL eoR
+
+	// do em
+	line(
+		outImg,
+		Point(eoL.x, eoL.y),
+		Point(eoR.x, eoR.y),
+		Scalar(0, 255, 0),
+		10,
+		8
+	);
+
+	double dd = eoL.distance(&eoR) / 1200 * 29.7;
+	putText(outImg, to_string(dd), Point((eoL.x + eoR.x) / 2, (eoL.y + eoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	// ----------------------------
+	// do chieu cao
+	line(
+		outImg,
+		Point(pointTop.x, pointTop.y),
+		Point(pointLow.x, pointLow.y),
+		Scalar(0, 255, 0),
+		10,
+		8
+	);
+
+	dd = pointLow.distance(&pointTop) / 1200 * 29.7;
+	putText(outImg, to_string(dd), Point((pointLow.x + pointTop.x) / 2, (pointLow.y + pointTop.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	// ----------------------------
+	// do tay ao trai
+	line(
+		outImg,
+		Point(pointMin.x, pointMin.y),
+		Point(vaiL.x, vaiL.y),
+		Scalar(0, 255, 0),
+		10,
+		8
+	);
+
+	dd = pointMin.distance(&vaiL) / 1200 * 29.7;
+	putText(outImg, to_string(dd), Point((pointMin.x + vaiL.x) / 2, (pointMin.y + vaiL.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	// ----------------------------
+	// do tay ao phai
+	line(
+		outImg,
+		Point(pointMax.x, pointMax.y),
+		Point(vaiR.x, vaiR.y),
+		Scalar(0, 255, 0),
+		10,
+		8
+	);
+
+	dd = pointMax.distance(&vaiR) / 1200 * 29.7;
+	putText(outImg, to_string(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	// ----------------------------
+	// do vai trai
+	line(
+		outImg,
+		Point(vaiL.x, vaiL.y),
+		Point(coAoL.x, coAoL.y),
+		Scalar(0, 255, 0),
+		10,
+		8
+	);
+
+	dd = vaiL.distance(&coAoL) / 1200 * 29.7;
+	putText(outImg, to_string(dd), Point((vaiL.x + coAoL.x) / 2, (vaiL.y + coAoL.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	// ----------------------------
+	// do vai phai
+	line(
+		outImg,
+		Point(vaiR.x, vaiR.y),
+		Point(coAoR.x, coAoR.y),
+		Scalar(0, 255, 0),
+		10,
+		8
+	);
+
+	dd = vaiR.distance(&coAoR) / 1200 * 29.7;
+	putText(outImg, to_string(dd), Point((vaiR.x + coAoR.x) / 2, (vaiR.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	// ----------------------------
+	// do co ao
+	line(
+		outImg,
+		Point(coAoL.x, coAoL.y),
+		Point(coAoR.x, coAoR.y),
+		Scalar(0, 255, 0),
+		10,
+		8
+	);
+
+	dd = coAoL.distance(&coAoR) / 1200 * 29.7;
+	putText(outImg, to_string(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	// ----------------------------
 	log.close();
 	imwrite("output.bmp", outImg);
 
