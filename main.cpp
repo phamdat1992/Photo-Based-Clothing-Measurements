@@ -1265,7 +1265,14 @@ int main(int argc, char* argv[])
 	Point centerCircle6(nachR.x, nachR.y);
 	circle(outImg, centerCircle6, radius, colorCircle, FILLED);
 
+	// pointMin pointMax
+	// coAoL coAoR
+	// nachL nachR
 
+	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
+	{
+
+	}
 
 	/*
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
