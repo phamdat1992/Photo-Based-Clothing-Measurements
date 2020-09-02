@@ -100,13 +100,16 @@
     <ClInclude Include="recDetect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rectCorners.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="extractClothsFromBackground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="photoBasedClothingMeasurements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="recCorners.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="union.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

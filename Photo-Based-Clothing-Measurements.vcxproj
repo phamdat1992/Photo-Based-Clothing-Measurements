@@ -178,8 +178,9 @@
   <ItemGroup>
     <ClInclude Include="extractClothsFromBackground.h" />
     <ClInclude Include="photoBasedClothingMeasurements.h" />
+    <ClInclude Include="recCorners.h" />
     <ClInclude Include="recDetect.h" />
-    <ClInclude Include="rectCorners.h" />
+    <ClInclude Include="union.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
