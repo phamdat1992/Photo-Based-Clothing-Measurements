@@ -8,6 +8,8 @@
 #include <fstream>
 #include <string>
 
+#include "recDetect.h"
+
 using namespace std;
 using namespace cv;
 

@@ -96,4 +96,15 @@
   <ItemGroup>
     <Text Include="log.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="recDetect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rectCorners.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="extractClothsFromBackground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
