@@ -106,5 +106,8 @@
     <ClInclude Include="extractClothsFromBackground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="photoBasedClothingMeasurements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

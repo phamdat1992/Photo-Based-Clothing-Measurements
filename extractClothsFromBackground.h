@@ -35,7 +35,7 @@ int unionGet(int u, int* lt)
 	}
 }
 
-Mat main(Mat* src)
+Mat extractClothsFromBackground(Mat* src)
 {
 	for (int row = 0; row < src->rows; ++row)
 	{
