@@ -177,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="extractClothsFromBackground.h" />
+    <ClInclude Include="libs.h" />
     <ClInclude Include="photoBasedClothingMeasurements.h" />
     <ClInclude Include="recCorners.h" />
     <ClInclude Include="recDetect.h" />

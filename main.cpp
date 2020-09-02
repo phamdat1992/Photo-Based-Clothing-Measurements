@@ -9,5 +9,5 @@ using namespace std;
 
 int main()
 {
-	cout << "test";
+	Mat inImg = imread("./input.bmp", IMREAD_COLOR);
 }

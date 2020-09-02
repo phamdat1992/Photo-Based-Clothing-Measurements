@@ -1,14 +1,6 @@
 #pragma once
 
-#include <opencv2/opencv.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui.hpp>
-#include <iostream>
-#include <list>
-#include <limits>
-#include <algorithm>
-#include <fstream>
-#include <string>
+#include "libs.h"
 
 using namespace std;
 using namespace cv;
@@ -241,16 +233,6 @@ public:
 	}
 };
 
-void readImage(Mat& image, const string& path)
-{
-	image = imread(path, IMREAD_COLOR);
-
-	if (image.empty())
-	{
-		cout << "Image not found" << endl;
-	}
-}
-
 // ref: geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon
 // given three colinear points p, q, r, the function checks if
 // point q lies on line segment 'pr'
@@ -346,26 +328,25 @@ bool isInside(vector<Point2D> polygon, int n, Point2D* p)
 	return (count % 2) == 1;
 }
 
-int photoBasedClothingMeasurements()
+Mat photoBasedClothingMeasurements(Mat* inImg)
 {
 	string imageName;
 	Mat outImg;
 	ofstream log;
-	log.open("log.txt");
+	// log.open("log.txt");
 
-	Mat inImg = imread("./input.bmp", IMREAD_COLOR);
-	outImg = inImg.clone();
+	outImg = inImg->clone();
 
 	list<Triangle> triangles;
 	list<Edge> ledges;
-	ColorNode* f1 = new ColorNode[inImg.cols];
-	ColorNode* f2 = new ColorNode[inImg.cols];
+	ColorNode* f1 = new ColorNode[inImg->cols];
+	ColorNode* f2 = new ColorNode[inImg->cols];
 
-	EdgeNode* cc1 = new EdgeNode[inImg.cols];
-	EdgeNode* cc2 = new EdgeNode[inImg.cols];
+	EdgeNode* cc1 = new EdgeNode[inImg->cols];
+	EdgeNode* cc2 = new EdgeNode[inImg->cols];
 
 	EdgeStructure edgeStack;
-	edgeStack.init(inImg.cols);
+	edgeStack.init(inImg->cols);
 
 	int currentImageId = 0;
 	int lenc1 = 0, lenc2 = 0;
@@ -377,9 +358,9 @@ int photoBasedClothingMeasurements()
 	f1->pR.x = f1->pR.y = -1;
 	f1->color = -1;
 	int nchannels = 3;
-	for (int row = 0; row < inImg.rows; ++row)
+	for (int row = 0; row < inImg->rows; ++row)
 	{
-		const uchar* ptr = inImg.ptr(row);
+		const uchar* ptr = inImg->ptr(row);
 
 		l2 = f2;
 		l2->l = l2->r = 0;
@@ -393,7 +374,7 @@ int photoBasedClothingMeasurements()
 		l2->pL.isVertice = l2->pR.isVertice = true;
 		l2->linkLeftUp = l2->linkLeftDown = l2->linkRightUp = l2->LinkRightDown = -1;
 
-		for (int col = 0; col < inImg.cols; ++col)
+		for (int col = 0; col < inImg->cols; ++col)
 		{
 			int cc = *ptr;
 			if (cc != l2->color)
@@ -1050,13 +1031,13 @@ int photoBasedClothingMeasurements()
 	Point2D pointMax, pointMin;
 
 	pointMax.assign(0, 0);
-	pointMin.assign(inImg.cols - 1, 0);
+	pointMin.assign(inImg->cols - 1, 0);
 
-	int loop = inImg.rows / 2;
+	int loop = inImg->rows / 2;
 	for (int row = 0; row < loop; ++row)
 	{
-		const uchar* ptr = inImg.ptr(row);
-		for (int col = 0; col < inImg.cols; ++col)
+		const uchar* ptr = inImg->ptr(row);
+		for (int col = 0; col < inImg->cols; ++col)
 		{
 			int cc = *ptr;
 			//cout << cc;
@@ -1167,7 +1148,7 @@ int photoBasedClothingMeasurements()
 	Point centerCircle4(coAoR.x, coAoR.y);
 	circle(outImg, centerCircle4, radius, colorCircle, FILLED);
 
-	int center = inImg.rows - (inImg.rows / 3);
+	int center = inImg->rows - (inImg->rows / 3);
 	dx1 = ttr.end();
 	dx2 = ttr.end();
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
@@ -1333,7 +1314,7 @@ int photoBasedClothingMeasurements()
 
 	double tb = (tb1 + tb2 + tb3 + tb4) / 4.0;
 
-	Point2D pointTop(0, inImg.rows), pointLow;
+	Point2D pointTop(0, inImg->rows), pointLow;
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
 		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
@@ -1381,7 +1362,7 @@ int photoBasedClothingMeasurements()
 	// vaiL vaiR
 	// pointTop pointLow
 
-	Point2D eoL(inImg.cols, 0), eoR;
+	Point2D eoL(inImg->cols, 0), eoR;
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
 		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
@@ -1393,7 +1374,7 @@ int photoBasedClothingMeasurements()
 		double cc1 = b1 * cur1->p1.x - a1 * cur1->p1.y;
 		double aa2 = b2;
 		double bb2 = -a2;
-		double cc2 = b2 * 1.0 - a2 * (inImg.rows - (inImg.rows / 3));
+		double cc2 = b2 * 1.0 - a2 * (inImg->rows - (inImg->rows / 3));
 		double d = aa1 * bb2 - aa2 * bb1;
 		double dx = cc1 * bb2 - cc2 * bb1;
 		double dy = aa1 * cc2 - aa2 * cc1;
@@ -1522,7 +1503,6 @@ int photoBasedClothingMeasurements()
 	putText(outImg, to_string(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
 	// ----------------------------
 	log.close();
-	imwrite("output.bmp", outImg);
 
 	delete[] f1;
 	delete[] f2;
@@ -1530,5 +1510,5 @@ int photoBasedClothingMeasurements()
 	delete[] cc1;
 	delete[] cc2;
 
-	return 0;
+	return outImg;
 }
