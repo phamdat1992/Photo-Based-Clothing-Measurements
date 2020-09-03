@@ -5,12 +5,12 @@
 using namespace std;
 using namespace cv;
 
-Mat extractClothsFromBackground(Mat* src)
+Mat extractClothsFromBackground(Mat src)
 {
-	for (int row = 0; row < src->rows; ++row)
+	for (int row = 0; row < src.rows; ++row)
 	{
-		uchar* ptr = src->ptr(row);
-		for (int col = 0; col < src->cols; ++col, ptr += 3)
+		uchar* ptr = src.ptr(row);
+		for (int col = 0; col < src.cols; ++col, ptr += 3)
 		{
 			double b = (double)ptr[0] / 255.0;
 			double g = (double)ptr[1] / 255.0;
@@ -25,7 +25,7 @@ Mat extractClothsFromBackground(Mat* src)
 		}
 	}
 
-	int size = src->rows * src->cols;
+	int size = src.rows * src.cols;
 	int* lt = new int[size];
 	int* dt = new int[size];
 	for (int i = 0; i < size; ++i)
@@ -35,10 +35,10 @@ Mat extractClothsFromBackground(Mat* src)
 	}
 
 	int index = -1;
-	for (int row = 0; row < src->rows; ++row)
+	for (int row = 0; row < src.rows; ++row)
 	{
-		uchar* ptr = src->ptr(row);
-		for (int col = 0; col < src->cols; ++col, ptr += 3)
+		uchar* ptr = src.ptr(row);
+		for (int col = 0; col < src.cols; ++col, ptr += 3)
 		{
 			++index;
 			if (ptr[0] != 0 || ptr[1] != 0 || ptr[2] != 0)
@@ -48,7 +48,7 @@ Mat extractClothsFromBackground(Mat* src)
 				int f1 = -1, f2 = -1;
 				if (row > 0)
 				{
-					int id1 = (row - 1) * src->cols + col;
+					int id1 = (row - 1) * src.cols + col;
 					f1 = unionGet(id1, lt);
 					if (dt[f1] == 0)
 					{
@@ -74,7 +74,7 @@ Mat extractClothsFromBackground(Mat* src)
 
 				if (col > 0)
 				{
-					int id2 = (row)*src->cols + col - 1;
+					int id2 = (row)*src.cols + col - 1;
 					f2 = unionGet(id2, lt);
 					if (dt[f2] == 0)
 					{
@@ -114,10 +114,10 @@ Mat extractClothsFromBackground(Mat* src)
 	}
 
 	index = 0;
-	for (int row = 0; row < src->rows; ++row)
+	for (int row = 0; row < src.rows; ++row)
 	{
-		uchar* ptr = src->ptr(row);
-		for (int col = 0; col < src->cols; ++col, ptr += 3, ++index)
+		uchar* ptr = src.ptr(row);
+		for (int col = 0; col < src.cols; ++col, ptr += 3, ++index)
 		{
 			int fl = unionGet(index, lt);
 			if (fl == ffmax)
@@ -131,10 +131,10 @@ Mat extractClothsFromBackground(Mat* src)
 		}
 	}
 
-	cvtColor(*src, *src, COLOR_BGR2GRAY);
+	cvtColor(src, src, COLOR_BGR2GRAY);
 	Mat se = getStructuringElement(MORPH_RECT, Size(10, 10));
 	Mat out;
-	morphologyEx(*src, out, MORPH_CLOSE, se);
+	morphologyEx(src, out, MORPH_CLOSE, se);
 
 	delete[] lt;
 	delete[] dt;

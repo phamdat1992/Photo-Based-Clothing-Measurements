@@ -8,10 +8,9 @@ using namespace cv;
 vector<vector<Point> > contours;
 vector<Vec4i> hierachy;
 
-Mat recCorners()
+Mat recCorners(Mat m, Mat im_src)
 {
 	Mat mThresh;
-	Mat m = imread("input.bmp", IMREAD_GRAYSCALE);
 	Mat mc;
 	threshold(m, mThresh, 10, 255, THRESH_BINARY);
 	bitwise_not(mThresh, mThresh);
@@ -32,11 +31,8 @@ Mat recCorners()
 
 	drawContours(mc, contours, contours.size() - 1, Scalar(0, 0, 255), 1);
 	imwrite("test2.bmp", mc);
-
-	// 29.7 x 21
-	Mat im_src = imread("a1.jpg");
+	
 	Mat im_out;
-
 	vector<Point2f> pts_src;
 	pts_src.push_back(Point2f(1238, 211));
 	pts_src.push_back(Point2f(263, 244));
@@ -44,13 +40,13 @@ Mat recCorners()
 	pts_src.push_back(Point2f(1185, 824));
 
 	vector<Point2f> pts_dst;
-	pts_dst.push_back(Point2f(1200, 0));
+	pts_dst.push_back(Point2f(1080, 0));
 	pts_dst.push_back(Point2f(0, 0));
-	pts_dst.push_back(Point2f(0, 848.5));
-	pts_dst.push_back(Point2f(1200, 848.5));
+	pts_dst.push_back(Point2f(0, 763.65));
+	pts_dst.push_back(Point2f(1080, 763.65));
 
 	Mat h = findHomography(pts_src, pts_dst);
-	warpPerspective(im_src, im_out, h, (im_src.size() * 2));
+	warpPerspective(im_src, im_out, h, (im_src.size()));
 
 	return im_out;
 }
