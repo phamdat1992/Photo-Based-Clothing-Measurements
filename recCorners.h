@@ -15,7 +15,6 @@ Mat recCorners(Mat m, Mat im_src)
 	threshold(m, mThresh, 10, 255, THRESH_BINARY);
 	bitwise_not(mThresh, mThresh);
 	findContours(mThresh, contours, hierachy, RETR_CCOMP, CHAIN_APPROX_NONE, Point(0, 0));
-	imwrite("test1.bmp", mThresh);
 
 	mc = Mat::zeros(m.size(), CV_8UC3);
 	drawContours(mc, contours, 0, Scalar(255, 0, 0), 1);
@@ -28,22 +27,53 @@ Mat recCorners(Mat m, Mat im_src)
 	} while (approx.size() > 4);
 
 	contours.push_back(approx);
-
-	drawContours(mc, contours, contours.size() - 1, Scalar(0, 0, 255), 1);
-	imwrite("test2.bmp", mc);
 	
-	Mat im_out;
-	vector<Point2f> pts_src;
-	pts_src.push_back(Point2f(1238, 211));
-	pts_src.push_back(Point2f(263, 244));
-	pts_src.push_back(Point2f(148, 853));
-	pts_src.push_back(Point2f(1185, 824));
+	int midX = (contours[1][0].x + contours[1][1].x + contours[1][2].x + contours[1][3].x) / 4;
+	int midY = (contours[1][0].y + contours[1][1].y + contours[1][2].y + contours[1][3].y) / 4;
 
+	vector<Point2f> pts_src;
+	for (int i = 0; i < 4; ++i)
+	{
+		if (contours[1][i].x > midX && contours[1][i].y < midY)
+		{
+			pts_src.push_back(Point2f(contours[1][i].x, contours[1][i].y));
+			break;
+		}
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		if (contours[1][i].x < midX && contours[1][i].y < midY)
+		{
+			pts_src.push_back(Point2f(contours[1][i].x, contours[1][i].y));
+			break;
+		}
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		if (contours[1][i].x < midX && contours[1][i].y > midY)
+		{
+			pts_src.push_back(Point2f(contours[1][i].x, contours[1][i].y));
+			break;
+		}
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		if (contours[1][i].x > midX && contours[1][i].y > midY)
+		{
+			pts_src.push_back(Point2f(contours[1][i].x, contours[1][i].y));
+			break;
+		}
+	}
+
+	Mat im_out;
 	vector<Point2f> pts_dst;
-	pts_dst.push_back(Point2f(1080, 0));
+	pts_dst.push_back(Point2f(756, 0));
 	pts_dst.push_back(Point2f(0, 0));
-	pts_dst.push_back(Point2f(0, 763.65));
-	pts_dst.push_back(Point2f(1080, 763.65));
+	pts_dst.push_back(Point2f(0, 600.558));
+	pts_dst.push_back(Point2f(756, 600.558));
 
 	Mat h = findHomography(pts_src, pts_dst);
 	warpPerspective(im_src, im_out, h, (im_src.size()));

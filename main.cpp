@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-	Mat inImg = imread("./input.jpg", IMREAD_COLOR);
+	Mat inImg = imread("./in3.jpg", IMREAD_COLOR);
 
 	Mat outImg = recDetect(inImg);
 	outImg = recCorners(outImg, inImg);

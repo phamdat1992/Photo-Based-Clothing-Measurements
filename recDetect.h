@@ -23,6 +23,10 @@ Mat recDetect(Mat in_src)
 			{
 				ptr[0] = ptr[1] = ptr[2] = 0;
 			}
+			else
+			{
+				ptr[0] = ptr[1] = ptr[2] = 255;
+			}
 		}
 	}
 
@@ -42,7 +46,7 @@ Mat recDetect(Mat in_src)
 		for (int col = 0; col < src.cols; ++col, ptr += 3)
 		{
 			++index;
-			if (ptr[0] != 0 || ptr[1] != 0 || ptr[2] != 0)
+			if (ptr[0] == 0 && ptr[1] == 0 && ptr[2] == 0)
 			{
 				dt[index] = 1;
 
@@ -112,6 +116,10 @@ Mat recDetect(Mat in_src)
 			max = dt[fl];
 			ffmax = fl;
 		}
+
+		if (fl != 0) {
+			// cout << "dcm";
+		}
 	}
 
 	index = 0;
@@ -123,11 +131,11 @@ Mat recDetect(Mat in_src)
 			int fl = unionGet(index, lt);
 			if (fl == ffmax)
 			{
-				ptr[0] = ptr[1] = ptr[2] = 255;
+				ptr[0] = ptr[1] = ptr[2] = 0;
 			}
 			else
 			{
-				ptr[0] = ptr[1] = ptr[2] = 0;
+				ptr[0] = ptr[1] = ptr[2] = 255;
 			}
 		}
 	}
@@ -140,5 +148,5 @@ Mat recDetect(Mat in_src)
 	delete[] lt;
 	delete[] dt;
 
-	return out;
+	return src;
 }

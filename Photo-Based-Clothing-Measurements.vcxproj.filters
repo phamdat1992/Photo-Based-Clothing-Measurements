@@ -20,76 +20,34 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="cluster.bmp">
+    <Image Include="in1.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="output.bmp">
+    <Image Include="in2.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="datas\a1-1.jpg">
+    <Image Include="in3.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="datas\a1-2.jpg">
+    <Image Include="in4.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="datas\a1-3.jpg">
+    <Image Include="in5.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="datas\a2-1.jpg">
+    <Image Include="in6.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="datas\a2-2.jpg">
+    <Image Include="in7.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="datas\a2-3.jpg">
+    <Image Include="in8.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="datas\a3-1.jpg">
+    <Image Include="in9.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="datas\a3-2.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\a3-3.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\a3-4.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg1.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg2.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg3.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg4.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg5.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg6.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg7.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg8.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg9.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg10.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="datas\bg11.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="input.bmp">
+    <Image Include="dcm.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
