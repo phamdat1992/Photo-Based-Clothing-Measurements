@@ -1,2 +1,0 @@
-C:\Projects\Photo-Based-Clothing-Measurements\x64\Debug\Photo-Based-Clothing-Measurements.exe
-C:\Projects\Photo-Based-Clothing-Measurements\x64\Debug\Photo-Based-Clothing-Measurements.pdb
