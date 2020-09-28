@@ -1,0 +1,2 @@
+ninja: Entering directory `/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/armeabi-v7a'
+ninja: no work to do.

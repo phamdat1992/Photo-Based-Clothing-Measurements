@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/home/groot/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=armv7-none-linux-androideabi23 --gcc-toolchain=/home/groot/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/groot/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -Dnative_lib_EXPORTS -I../../../../src/main/jniIncludes  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -std=gnu++11 -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o -c /home/groot/project/PhotoBasedClothingMeasurements/app/src/main/cpp/native-lib.cpp",
+  "file": "/home/groot/project/PhotoBasedClothingMeasurements/app/src/main/cpp/native-lib.cpp"
+}
+]

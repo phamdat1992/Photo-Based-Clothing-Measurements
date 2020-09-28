@@ -1,0 +1,7 @@
+Executable : /home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86
+native-lib
+jvmArgs : 
+
