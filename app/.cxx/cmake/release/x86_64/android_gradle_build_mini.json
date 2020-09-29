@@ -1,21 +1,21 @@
 {
   "buildFiles": [
     "/home/groot/Android/Sdk/ndk/21.0.6113669/build/cmake/android.toolchain.cmake",
-    "/home/groot/project/PhotoBasedClothingMeasurements/app/CMakeLists.txt",
+    "/home/groot/project/Photo-Based-Clothing-Measurements/app/CMakeLists.txt",
     "/home/groot/Android/Sdk/ndk/21.0.6113669/build/cmake/platforms.cmake"
   ],
   "cleanCommands": [
-    "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/release/x86_64\" clean"
+    "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/release/x86_64\" clean"
   ],
-  "buildTargetsCommand": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/release/x86_64\" {LIST_OF_TARGETS_TO_BUILD}",
+  "buildTargetsCommand": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/release/x86_64\" {LIST_OF_TARGETS_TO_BUILD}",
   "libraries": {
     "native-lib-Release-x86_64": {
       "artifactName": "native-lib",
-      "buildCommand": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/release/x86_64\" native-lib",
+      "buildCommand": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/release/x86_64\" native-lib",
       "abi": "x86_64",
-      "output": "/home/groot/project/PhotoBasedClothingMeasurements/app/build/intermediates/cmake/release/obj/x86_64/libnative-lib.so",
+      "output": "/home/groot/project/Photo-Based-Clothing-Measurements/app/build/intermediates/cmake/release/obj/x86_64/libnative-lib.so",
       "runtimeFiles": [
-        "/home/groot/project/PhotoBasedClothingMeasurements/app/src/main/jniLibs/x86_64/libopencv_java3.so"
+        "/home/groot/project/Photo-Based-Clothing-Measurements/app/src/main/jniLibs/x86_64/libopencv_java3.so"
       ]
     }
   }

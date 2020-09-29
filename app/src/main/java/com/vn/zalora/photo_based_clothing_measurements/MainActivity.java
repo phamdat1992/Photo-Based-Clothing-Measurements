@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    public native void stringFromJNI(long addrRgba);
+    public native void clothingMeasurement(long addrRgba);
 
     public void takePicture(View view) {
         Intent imageTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -57,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            Mat mat = new Mat(imageBitmap.getHeight(), imageBitmap.getWidth(), CvType.CV_8UC3);
-            Bitmap bmp32 = imageBitmap.copy(Bitmap.Config.ARGB_8888, true);
-            Utils.bitmapToMat(bmp32, mat);
+            Mat mat = new Mat();
+            Utils.bitmapToMat(imageBitmap, mat);
+            clothingMeasurement(mat.getNativeObjAddr());
+            Utils.matToBitmap(mat, imageBitmap);
             mimageView.setImageBitmap(imageBitmap);
         }
     }

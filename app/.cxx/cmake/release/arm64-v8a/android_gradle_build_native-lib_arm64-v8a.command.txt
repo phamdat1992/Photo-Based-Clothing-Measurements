@@ -1,0 +1,7 @@
+Executable : /home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/release/arm64-v8a
+native-lib
+jvmArgs : 
+

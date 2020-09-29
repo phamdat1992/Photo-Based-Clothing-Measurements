@@ -1,12 +1,21 @@
 apply plugin: 'com.android.library'
 
 android {
+    signingConfigs {
+        release {
+            keyPassword 'zalora'
+            storePassword 'zalora'
+            keyAlias 'zalora'
+            storeFile file('/home/groot/project/Photo-Based-Clothing-Measurements/my-release-key.keystore')
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "29.0.2"
 
     defaultConfig {
         minSdkVersion 23
         targetSdkVersion 30
+        signingConfig signingConfigs.release
     }
 
     buildTypes {

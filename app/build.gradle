@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyPassword 'zalora'
+            keyAlias 'zalora'
+            storePassword 'zalora'
+            storeFile file('/home/groot/project/Photo-Based-Clothing-Measurements/my-release-key.keystore')
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -18,6 +26,7 @@ android {
              //   abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
             }
         }
+        signingConfig signingConfigs.release
     }
 
     buildTypes {

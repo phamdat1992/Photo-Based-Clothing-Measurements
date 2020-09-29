@@ -1,35 +1,35 @@
 {
   "stringTable": {
-    "0": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86",
+    "0": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86",
     "1": "--target=i686-none-linux-android23 --gcc-toolchain=/home/groot/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/groot/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnative_lib_EXPORTS -I../../../../src/main/jniIncludes -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=gnu++11 -O0 -fno-limit-debug-info -fPIC"
   },
   "buildFiles": [
     "/home/groot/Android/Sdk/ndk/21.0.6113669/build/cmake/android.toolchain.cmake",
-    "/home/groot/project/PhotoBasedClothingMeasurements/app/CMakeLists.txt",
+    "/home/groot/project/Photo-Based-Clothing-Measurements/app/CMakeLists.txt",
     "/home/groot/Android/Sdk/ndk/21.0.6113669/build/cmake/platforms.cmake"
   ],
   "cleanCommands": [
-    "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86\" clean"
+    "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86\" clean"
   ],
-  "buildTargetsCommand": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "buildTargetsCommand": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86\" {LIST_OF_TARGETS_TO_BUILD}",
   "libraries": {
     "native-lib-Debug-x86": {
-      "buildCommand": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86\" native-lib",
+      "buildCommand": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86\" native-lib",
       "buildType": "debug",
       "toolchain": "3691161967",
       "abi": "x86",
       "artifactName": "native-lib",
       "files": [
         {
-          "src": "/home/groot/project/PhotoBasedClothingMeasurements/app/src/main/cpp/native-lib.cpp",
+          "src": "/home/groot/project/Photo-Based-Clothing-Measurements/app/src/main/cpp/native-lib.cpp",
           "flagsOrdinal": 1,
           "workingDirectoryOrdinal": 0
         }
       ],
       "headers": [],
-      "output": "/home/groot/project/PhotoBasedClothingMeasurements/app/build/intermediates/cmake/debug/obj/x86/libnative-lib.so",
+      "output": "/home/groot/project/Photo-Based-Clothing-Measurements/app/build/intermediates/cmake/debug/obj/x86/libnative-lib.so",
       "runtimeFiles": [
-        "/home/groot/project/PhotoBasedClothingMeasurements/app/src/main/jniLibs/x86/libopencv_java3.so"
+        "/home/groot/project/Photo-Based-Clothing-Measurements/app/src/main/jniLibs/x86/libopencv_java3.so"
       ]
     }
   },

@@ -11,7 +11,7 @@ Mat recDetect(Mat in_src)
 	for (int row = 0; row < src.rows; ++row)
 	{
 		uchar* ptr = src.ptr(row);
-		for (int col = 0; col < src.cols; ++col, ptr += 3)
+		for (int col = 0; col < src.cols; ++col, ptr += 4)
 		{
 			double b = (double)ptr[0] / 255.0;
 			double g = (double)ptr[1] / 255.0;
@@ -21,11 +21,11 @@ Mat recDetect(Mat in_src)
 			double d = sqrt(g * g + r * r + b * b);
 			if (d < 0.8)
 			{
-				ptr[0] = ptr[1] = ptr[2] = 0;
+				ptr[0] = ptr[1] = ptr[2] = ptr[3] = 0;
 			}
 			else
 			{
-				ptr[0] = ptr[1] = ptr[2] = 255;
+				ptr[0] = ptr[1] = ptr[2] = ptr[3] = 255;
 			}
 		}
 	}
@@ -126,24 +126,24 @@ Mat recDetect(Mat in_src)
 	for (int row = 0; row < src.rows; ++row)
 	{
 		uchar* ptr = src.ptr(row);
-		for (int col = 0; col < src.cols; ++col, ptr += 3, ++index)
+		for (int col = 0; col < src.cols; ++col, ptr += 4, ++index)
 		{
 			int fl = unionGet(index, lt);
 			if (fl == ffmax)
 			{
-				ptr[0] = ptr[1] = ptr[2] = 0;
+				ptr[0] = ptr[1] = ptr[2] = ptr[3] = 0;
 			}
 			else
 			{
-				ptr[0] = ptr[1] = ptr[2] = 255;
+				ptr[0] = ptr[1] = ptr[2] = ptr[3] = 255;
 			}
 		}
 	}
 
-	cvtColor(src, src, COLOR_BGR2GRAY);
-	Mat se = getStructuringElement(MORPH_RECT, Size(10, 10));
-	Mat out;
-	morphologyEx(src, out, MORPH_CLOSE, se);
+	cvtColor(src, src, COLOR_RGBA2GRAY);
+	//Mat se = getStructuringElement(MORPH_RECT, Size(10, 10));
+	//Mat out;
+	//morphologyEx(src, out, MORPH_CLOSE, se);
 
 	delete[] lt;
 	delete[] dt;

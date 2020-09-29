@@ -1,4 +1,4 @@
-ninja: Entering directory `/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86'
+ninja: Entering directory `/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86'
 [1/2] Building CXX object CMakeFiles/native-lib.dir/src/main/cpp/native-lib.cpp.o
 In file included from ../../../../src/main/cpp/native-lib.cpp:6:
 In file included from ../../../../src/main/cpp/recDetect.h:3:

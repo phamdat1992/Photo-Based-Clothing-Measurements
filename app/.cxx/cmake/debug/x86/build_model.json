@@ -5,9 +5,9 @@
     "environmentVariables": []
   },
   "cmake": {
-    "cmakeArtifactsBaseFolder": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86",
-    "cmakeServerLogFile": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86/cmake_server_log.txt",
-    "cmakeWrappingBaseFolder": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cxx/debug/x86",
+    "cmakeArtifactsBaseFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86",
+    "cmakeServerLogFile": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86/cmake_server_log.txt",
+    "cmakeWrappingBaseFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cxx/debug/x86",
     "effectiveConfiguration": {
       "name": "traditional-android-studio-cmake-environment",
       "description": "Composite reified CMakeSettings configuration",
@@ -15,13 +15,13 @@
       "inheritEnvironments": [
         "ndk"
       ],
-      "buildRoot": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86",
+      "buildRoot": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86",
       "cmakeToolchain": "/home/groot/Android/Sdk/ndk/21.0.6113669/build/cmake/android.toolchain.cmake",
       "cmakeExecutable": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/cmake",
       "variables": [
         {
           "name": "CMAKE_FIND_ROOT_PATH",
-          "value": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/prefab/x86/prefab"
+          "value": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/prefab/x86/prefab"
         },
         {
           "name": "CMAKE_BUILD_TYPE",
@@ -57,7 +57,7 @@
         },
         {
           "name": "CMAKE_LIBRARY_OUTPUT_DIRECTORY",
-          "value": "/home/groot/project/PhotoBasedClothingMeasurements/app/build/intermediates/cmake/debug/obj/x86"
+          "value": "/home/groot/project/Photo-Based-Clothing-Measurements/app/build/intermediates/cmake/debug/obj/x86"
         },
         {
           "name": "CMAKE_MAKE_PROGRAM",
@@ -74,14 +74,14 @@
       ]
     }
   },
-  "cxxBuildFolder": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86",
+  "cxxBuildFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86",
   "info": {
     "abi": "X86",
     "bitness": 32,
     "deprecated": false,
     "default": true
   },
-  "originalCxxBuildFolder": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/x86",
+  "originalCxxBuildFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/x86",
   "variant": {
     "buildSystemArgumentList": [],
     "buildTargetSet": [],
@@ -97,12 +97,12 @@
         "ninjaExe": "/home/groot/Android/Sdk/cmake/3.10.2.4988404/bin/ninja"
       },
       "cmakeToolchainFile": "/home/groot/Android/Sdk/ndk/21.0.6113669/build/cmake/android.toolchain.cmake",
-      "cxxFolder": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx",
+      "cxxFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx",
       "gradleModulePathName": ":app",
-      "intermediatesFolder": "/home/groot/project/PhotoBasedClothingMeasurements/app/build/intermediates",
-      "makeFile": "/home/groot/project/PhotoBasedClothingMeasurements/app/CMakeLists.txt",
-      "moduleBuildFile": "/home/groot/project/PhotoBasedClothingMeasurements/app/build.gradle",
-      "moduleRootFolder": "/home/groot/project/PhotoBasedClothingMeasurements/app",
+      "intermediatesFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app/build/intermediates",
+      "makeFile": "/home/groot/project/Photo-Based-Clothing-Measurements/app/CMakeLists.txt",
+      "moduleBuildFile": "/home/groot/project/Photo-Based-Clothing-Measurements/app/build.gradle",
+      "moduleRootFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app",
       "ndkDefaultAbiList": [
         "ARMEABI_V7A",
         "ARM64_V8A",
@@ -166,12 +166,12 @@
       "ndkDefaultStl": "LIBCXX_STATIC",
       "ndkVersion": "21.0.6113669",
       "project": {
-        "compilerSettingsCacheFolder": "/home/groot/project/PhotoBasedClothingMeasurements/.cxx",
-        "cxxFolder": "/home/groot/project/PhotoBasedClothingMeasurements/.cxx",
+        "compilerSettingsCacheFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/.cxx",
+        "cxxFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/.cxx",
         "isBuildOnlyTargetAbiEnabled": true,
         "isCmakeBuildCohabitationEnabled": false,
         "isNativeCompilerSettingsCacheEnabled": false,
-        "rootBuildGradleFolder": "/home/groot/project/PhotoBasedClothingMeasurements",
+        "rootBuildGradleFolder": "/home/groot/project/Photo-Based-Clothing-Measurements",
         "sdkFolder": "/home/groot/Android/Sdk",
         "isPrefabEnabled": false
       },
@@ -188,7 +188,7 @@
         "SYSTEM": {}
       }
     },
-    "objFolder": "/home/groot/project/PhotoBasedClothingMeasurements/app/build/intermediates/cmake/debug/obj",
+    "objFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app/build/intermediates/cmake/debug/obj",
     "variantName": "debug",
     "validAbiList": [
       "ARMEABI_V7A",
@@ -196,8 +196,8 @@
       "X86",
       "X86_64"
     ],
-    "prefabDirectory": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/prefab",
+    "prefabDirectory": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/prefab",
     "prefabPackageDirectoryList": []
   },
-  "prefabFolder": "/home/groot/project/PhotoBasedClothingMeasurements/app/.cxx/cmake/debug/prefab/x86"
+  "prefabFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/prefab/x86"
 }
