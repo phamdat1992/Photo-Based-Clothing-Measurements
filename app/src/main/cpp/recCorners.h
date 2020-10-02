@@ -20,6 +20,8 @@ Mat recCorners(Mat m, Mat im_src)
 	drawContours(mc, contours, 0, Scalar(255, 0, 0), 1);
 	vector<Point> approx;
 
+	return mc;
+
 	double d = 0;
 	do {
 		d = d + 1;

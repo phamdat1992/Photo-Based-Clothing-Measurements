@@ -13,9 +13,9 @@ Mat recDetect(Mat in_src)
 		uchar* ptr = src.ptr(row);
 		for (int col = 0; col < src.cols; ++col, ptr += 4)
 		{
-			double b = (double)ptr[0] / 255.0;
+			double r = (double)ptr[0] / 255.0;
 			double g = (double)ptr[1] / 255.0;
-			double r = (double)ptr[2] / 255.0;
+			double b = (double)ptr[2] / 255.0;
 
 			r = 1 - r;
 			double d = sqrt(g * g + r * r + b * b);
@@ -141,9 +141,9 @@ Mat recDetect(Mat in_src)
 	}
 
 	cvtColor(src, src, COLOR_RGBA2GRAY);
-	//Mat se = getStructuringElement(MORPH_RECT, Size(10, 10));
-	//Mat out;
-	//morphologyEx(src, out, MORPH_CLOSE, se);
+	Mat se = getStructuringElement(MORPH_RECT, Size(10, 10));
+	Mat out;
+	morphologyEx(src, out, MORPH_CLOSE, se);
 
 	delete[] lt;
 	delete[] dt;

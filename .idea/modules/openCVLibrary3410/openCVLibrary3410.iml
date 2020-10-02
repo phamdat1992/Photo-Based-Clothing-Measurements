@@ -19,8 +19,8 @@
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../openCVLibrary3410/src/main/res;file://$MODULE_DIR$/../../../openCVLibrary3410/src/debug/res;file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/res/rs/debug" />
-        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../openCVLibrary3410/src/androidTest/res;file://$MODULE_DIR$/../../../openCVLibrary3410/src/test/res;file://$MODULE_DIR$/../../../openCVLibrary3410/src/androidTestDebug/res;file://$MODULE_DIR$/../../../openCVLibrary3410/src/testDebug/res;file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/res/rs/androidTest/debug" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../openCVLibrary3410/src/main/res;file://$MODULE_DIR$/../../../openCVLibrary3410/src/release/res;file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/res/rs/release" />
+        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../openCVLibrary3410/src/androidTest/res;file://$MODULE_DIR$/../../../openCVLibrary3410/src/test/res;file://$MODULE_DIR$/../../../openCVLibrary3410/src/testRelease/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
         <option name="PROJECT_TYPE" value="1" />
       </configuration>
@@ -33,8 +33,8 @@
     <content url="file://$MODULE_DIR$/../../../openCVLibrary3410">
       <sourceFolder url="file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/ap_generated_sources/release/out" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/aidl_source_output_dir/release/out" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/source/buildConfig/release" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/renderscript_source_output_dir/release/out" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/source/buildConfig/release" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/res/rs/release" type="java-resource" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../openCVLibrary3410/build/generated/ap_generated_sources/releaseUnitTest/out" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../openCVLibrary3410/src/release/res" type="java-resource" />
