@@ -6,7 +6,8 @@ In file included from ../../../../src/main/cpp/recDetect.h:3:
 #include "union.h";
                   ^
                   //
-In file included from ../../../../src/main/cpp/native-lib.cpp:9:
+In file included from ../../../../src/main/cpp/native-lib.cpp:7:
+In file included from ../../../../src/main/cpp/recCorners.h:4:
 ../../../../src/main/cpp/photoBasedClothingMeasurements.h:158:29: warning: '&&' within '||' [-Wlogical-op-parentheses]
                 return this->p1.equal(p1) && this->p2.equal(p2) || this->p1.equal(p2) && this->p2.equal(p1);
                        ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~ ~~

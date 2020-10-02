@@ -1,6 +1,7 @@
 #pragma once
 
 #include "libs.h"
+#include "photoBasedClothingMeasurements.h"
 
 using namespace std;
 using namespace cv;
@@ -21,12 +22,6 @@ Mat recCorners(Mat m, Mat im_src)
 	vector<Point> approx;
 
 	double d = 0;
-	do {
-		d = d + 1;
-		approxPolyDP(contours[0], approx, d, true);
-	} while (approx.size() > 4);
-
-	contours.push_back(approx);
 
 	int midX = 0;
 	int midY = 0;
@@ -37,43 +32,66 @@ Mat recCorners(Mat m, Mat im_src)
 
 	midX /= contours[0].size();
 	midY /= contours[0].size();
+	Point2D mid;
+	mid.assign(midX, midY);
 
 	vector<Point2f> pts_src;
-	for (int i = 0; i < 4; ++i)
+	double ddx = 0.0;
+	Point2D ot;
+	for (int i = 0; i < contours[0].size(); ++i)
 	{
-		if (contours[1][i].x > midX && contours[1][i].y < midY)
+		if (contours[0][i].x > midX && contours[0][i].y < midY)
 		{
-			pts_src.push_back(Point2f(contours[1][i].x, contours[1][i].y));
-			break;
+		    double dcm = mid.distance(contours[0][i].x, contours[0][i].y);
+		    if (dcm > ddx) {
+		        ddx = dcm;
+		        ot.assign(contours[0][i].x, contours[0][i].y);
+		    }
 		}
 	}
+    pts_src.push_back(Point2f(ot.x, ot.y));
 
-	for (int i = 0; i < 4; ++i)
-	{
-		if (contours[1][i].x < midX && contours[1][i].y < midY)
-		{
-			pts_src.push_back(Point2f(contours[1][i].x, contours[1][i].y));
-			break;
-		}
-	}
+    ddx = 0.0;
+    for (int i = 0; i < contours[0].size(); ++i)
+    {
+        if (contours[1][i].x < midX && contours[1][i].y < midY)
+        {
+            double dcm = mid.distance(contours[0][i].x, contours[0][i].y);
+            if (dcm > ddx) {
+                ddx = dcm;
+                ot.assign(contours[0][i].x, contours[0][i].y);
+            }
+        }
+    }
+    pts_src.push_back(Point2f(ot.x, ot.y));
 
-	for (int i = 0; i < 4; ++i)
-	{
-		if (contours[1][i].x < midX && contours[1][i].y > midY)
-		{
-			pts_src.push_back(Point2f(contours[1][i].x, contours[1][i].y));
-			break;
-		}
-	}
+    ddx = 0.0;
+    for (int i = 0; i < contours[0].size(); ++i)
+    {
+        if (contours[1][i].x < midX && contours[1][i].y > midY)
+        {
+            double dcm = mid.distance(contours[0][i].x, contours[0][i].y);
+            if (dcm > ddx) {
+                ddx = dcm;
+                ot.assign(contours[0][i].x, contours[0][i].y);
+            }
+        }
+    }
+    pts_src.push_back(Point2f(ot.x, ot.y));
 
-	for (int i = 0; i < 4; ++i)
-	{
-		if (contours[1][i].x > midX && contours[1][i].y > midY)
-		{
-			pts_src.push_back(Point2f(contours[1][i].x, contours[1][i].y));
-			break;
-		}
-	}
+    ddx = 0.0;
+    for (int i = 0; i < contours[0].size(); ++i)
+    {
+        if (contours[1][i].x > midX && contours[1][i].y > midY)
+        {
+            double dcm = mid.distance(contours[0][i].x, contours[0][i].y);
+            if (dcm > ddx) {
+                ddx = dcm;
+                ot.assign(contours[0][i].x, contours[0][i].y);
+            }
+        }
+    }
+    pts_src.push_back(Point2f(ot.x, ot.y));
 
 	Mat im_out;
 	vector<Point2f> pts_dst;
