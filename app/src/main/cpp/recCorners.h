@@ -20,8 +20,6 @@ Mat recCorners(Mat m, Mat im_src)
 	drawContours(mc, contours, 0, Scalar(255, 0, 0), 1);
 	vector<Point> approx;
 
-	return mc;
-
 	double d = 0;
 	do {
 		d = d + 1;
@@ -29,9 +27,16 @@ Mat recCorners(Mat m, Mat im_src)
 	} while (approx.size() > 4);
 
 	contours.push_back(approx);
-	
-	int midX = (contours[1][0].x + contours[1][1].x + contours[1][2].x + contours[1][3].x) / 4;
-	int midY = (contours[1][0].y + contours[1][1].y + contours[1][2].y + contours[1][3].y) / 4;
+
+	int midX = 0;
+	int midY = 0;
+	for (int i = 0; i < contours[0].size(); ++i) {
+	    midX += contours[0][i].x;
+        midX += contours[0][i].y;
+	}
+
+	midX /= contours[0].size();
+	midY /= contours[0].size();
 
 	vector<Point2f> pts_src;
 	for (int i = 0; i < 4; ++i)
@@ -77,8 +82,13 @@ Mat recCorners(Mat m, Mat im_src)
 	pts_dst.push_back(Point2f(0, 600.558));
 	pts_dst.push_back(Point2f(756, 600.558));
 
-	Mat h = findHomography(pts_src, pts_dst);
-	warpPerspective(im_src, im_out, h, (im_src.size()));
 
-	return im_out;
+	//if (pts_dst.size() == pts_src.size()) {
+		Mat h = findHomography(pts_src, pts_dst);
+		warpPerspective(im_src, im_out, h, (im_src.size()));
+
+		return im_out;
+	//}
+
+	return mc;
 }

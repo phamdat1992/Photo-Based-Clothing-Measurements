@@ -168,7 +168,6 @@
       "project": {
         "compilerSettingsCacheFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/.cxx",
         "cxxFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/.cxx",
-        "ideBuildTargetAbi": "armeabi-v7a,armeabi",
         "isBuildOnlyTargetAbiEnabled": true,
         "isCmakeBuildCohabitationEnabled": false,
         "isNativeCompilerSettingsCacheEnabled": false,
@@ -192,7 +191,10 @@
     "objFolder": "/home/groot/project/Photo-Based-Clothing-Measurements/app/build/intermediates/cmake/debug/obj",
     "variantName": "debug",
     "validAbiList": [
-      "ARMEABI_V7A"
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
     ],
     "prefabDirectory": "/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/debug/prefab",
     "prefabPackageDirectoryList": []

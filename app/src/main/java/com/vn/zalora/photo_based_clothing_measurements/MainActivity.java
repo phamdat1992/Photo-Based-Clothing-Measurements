@@ -35,12 +35,13 @@ import java.io.IOException;
 
 import static java.lang.Math.min;
 import static org.opencv.imgcodecs.Imgcodecs.IMREAD_GRAYSCALE;
+import static org.opencv.imgproc.Imgproc.resize;
 
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
     private static final String TAG = "myTag";
     private JavaCameraView javaCameraView;
-    private Mat mRgba;
+    public static Mat mRgba;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -59,26 +60,18 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
     };
 
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+        }
         this.javaCameraView = (JavaCameraView) findViewById(R.id.java_camera_view);
         javaCameraView.setVisibility(View.VISIBLE);
         javaCameraView.setCvCameraViewListener(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
-
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    public native void clothingMeasurement(long addrRgba);
 
     public void onResume() {
         Log.d(TAG, "in on-resume");
@@ -105,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     @Override
     public void onCameraViewStarted(int width, int height) {
-        this.mRgba = new Mat(height, width, CvType.CV_8UC4);
+        mRgba = new Mat(height, width, CvType.CV_8UC4);
     }
 
     @Override
@@ -115,8 +108,12 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        Core.rotate(inputFrame.rgba(), this.mRgba, Core.ROTATE_90_CLOCKWISE);
-        clothingMeasurement(this.mRgba.getNativeObjAddr());
-        return this.mRgba;
+        Core.rotate(inputFrame.rgba(), mRgba, Core.ROTATE_90_CLOCKWISE);
+        return mRgba;
+    }
+
+    public void onClickProcess(View view) {
+        Intent getNameScreenIntent = new Intent(this, ShowResultActivity.class);
+        startActivity(getNameScreenIntent);
     }
 }

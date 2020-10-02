@@ -12,17 +12,19 @@ using namespace cv;
 using namespace std;
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_vn_zalora_photo_1based_1clothing_1measurements_MainActivity_clothingMeasurement(
+Java_com_vn_zalora_photo_1based_1clothing_1measurements_ShowResultActivity_clothingMeasurement(
         JNIEnv* env,
         jobject type,
         jlong addrRgba
 ) {
     Mat &inImg = *(Mat*)addrRgba;
-    cvtColor(inImg, inImg, COLOR_RGB2GRAY);
-    /*
+//    cvtColor(inImg, inImg, COLOR_RGB2GRAY);
+
     Mat outImg = recDetect(inImg);
     outImg = recCorners(outImg, inImg);
+    //resize(outImg, inImg, inImg.size(), 0, 0, 1);
     inImg = outImg;
+    /*
     outImg = extractClothsFromBackground(outImg);
     inImg = photoBasedClothingMeasurements(outImg);*/
 }

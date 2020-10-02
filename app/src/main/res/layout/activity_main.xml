@@ -8,8 +8,17 @@
     android:orientation="vertical">
 
     <org.opencv.android.JavaCameraView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/java_camera_view"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="680dp"
+        android:clickable="false"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|bottom"
+        android:onClick="onClickProcess"
+        android:text="@string/take_picture" />
 </LinearLayout>

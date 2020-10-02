@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Photo-Based-Clothing-Measurements</string>
     <string name="take_a_picture">Take a Picture</string>
+    <string name="take_picture">Take Picture</string>
 </resources>
