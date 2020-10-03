@@ -18,11 +18,8 @@ Java_com_vn_zalora_photo_1based_1clothing_1measurements_ShowResultActivity_cloth
         jlong addrRgba
 ) {
     Mat &inImg = *(Mat*)addrRgba;
-//    cvtColor(inImg, inImg, COLOR_RGB2GRAY);
-
     Mat outImg = recDetect(inImg);
     outImg = recCorners(outImg, inImg);
-    //outImg = extractClothsFromBackground(outImg);
-    inImg = outImg;
-    //inImg = photoBasedClothingMeasurements(outImg);
+    outImg = extractClothsFromBackground(outImg);
+    inImg = photoBasedClothingMeasurements(outImg);
 }

@@ -138,7 +138,7 @@ Mat extractClothsFromBackground(Mat src)
 
 			g = 1.0 - g;
 			double d = sqrt(g * g + r * r + b * b);
-			if (d < 0.7 && !(ptr[0] == 0 && ptr[1] == 0 && ptr[2] == 0 && ptr[3] == 0))
+			if (d < 0.8 && !(ptr[0] == 0 && ptr[1] == 0 && ptr[2] == 0 && ptr[3] == 0))
 			{
 				ptr[0] = ptr[1] = ptr[2] = ptr[3] = 0;
 			}

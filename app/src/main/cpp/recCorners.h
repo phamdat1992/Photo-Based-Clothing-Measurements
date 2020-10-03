@@ -120,7 +120,7 @@ Mat recCorners(Mat m, Mat im_src)
         uchar* ptr = im_out.ptr(row);
         for (int col = 0; col < im_out.cols; ++col, ptr += 4)
         {
-            if (ptr[0] == 0 && ptr[1] == 0 && ptr[2] == 0 && ptr[3] == 0)
+            if (!(ptr[0] == 0 && ptr[1] == 0 && ptr[2] == 0 && ptr[3] == 0))
             {
                 xMax = max(xMax, col);
                 yMax = max(yMax, row);
@@ -128,8 +128,8 @@ Mat recCorners(Mat m, Mat im_src)
         }
     }
 
-    Size size(xMax,yMax);
-    resize(im_out, im_out, size);
+    Rect myROI(0, 0, xMax, yMax);
+    im_out(myROI).copyTo(im_out);
 
 	return im_out;
 }
