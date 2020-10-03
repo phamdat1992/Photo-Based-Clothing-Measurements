@@ -5,7 +5,7 @@
 using namespace std;
 using namespace cv;
 
-const double ALPHA_J = 10.0;
+const double ALPHA_J = 5.0;
 const double EPS = 0.001;
 const double PI = 3.14159265;
 
@@ -1005,6 +1005,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		swap(lenc1, lenc2);
 	}
 
+	cvtColor(outImg, outImg, COLOR_GRAY2RGB);
+
 	list<Edge> result;
 	for (list<Edge>::iterator cur1 = ledges.begin(); cur1 != ledges.end(); ++cur1)
 	{
@@ -1445,8 +1447,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		8
 	);
 
-	double dd = eoL.distance(&eoR) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((eoL.x + eoR.x) / 2, (eoL.y + eoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	double dd = eoL.distance(&eoR) / 250.0 * 21.0;
+	putText(outImg, to_string(dd), Point((eoL.x + eoR.x) / 2, (eoL.y + eoR.y) / 2), FONT_HERSHEY_COMPLEX, 1.0, Scalar(0, 0, 255), 1);
 	// ----------------------------
 	// do chieu cao
 	line(
@@ -1458,8 +1460,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		8
 	);
 
-	dd = pointLow.distance(&pointTop) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((pointLow.x + pointTop.x) / 2, (pointLow.y + pointTop.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	dd = pointLow.distance(&pointTop) / 250.0 * 21.0;
+	putText(outImg, to_string(dd), Point((pointLow.x + pointTop.x) / 2, (pointLow.y + pointTop.y) / 2), FONT_HERSHEY_COMPLEX, 1.0, Scalar(0, 0, 255), 1);
 	// ----------------------------
 	// do tay ao trai
 	line(
@@ -1471,8 +1473,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		8
 	);
 
-	dd = pointMin.distance(&vaiL) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((pointMin.x + vaiL.x) / 2, (pointMin.y + vaiL.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	dd = pointMin.distance(&vaiL) / 250.0 * 21.0;
+	putText(outImg, to_string(dd), Point((pointMin.x + vaiL.x) / 2, (pointMin.y + vaiL.y) / 2), FONT_HERSHEY_COMPLEX, 1.0, Scalar(0, 0, 255), 1);
 	// ----------------------------
 	// do tay ao phai
 	line(
@@ -1484,8 +1486,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		8
 	);
 
-	dd = pointMax.distance(&vaiR) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	dd = pointMax.distance(&vaiR) / 250.0 * 21.0;
+	putText(outImg, to_string(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 1.0, Scalar(0, 0, 255), 1);
 	// ----------------------------
 	// do vai trai
 	line(
@@ -1497,8 +1499,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		8
 	);
 
-	dd = vaiL.distance(&coAoL) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((vaiL.x + coAoL.x) / 2, (vaiL.y + coAoL.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	dd = vaiL.distance(&coAoL) / 250.0 * 21.0;
+	putText(outImg, to_string(dd), Point((vaiL.x + coAoL.x) / 2, (vaiL.y + coAoL.y) / 2), FONT_HERSHEY_COMPLEX, 1.0, Scalar(0, 0, 255), 1);
 	// ----------------------------
 	// do vai phai
 	line(
@@ -1510,8 +1512,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		8
 	);
 
-	dd = vaiR.distance(&coAoR) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((vaiR.x + coAoR.x) / 2, (vaiR.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	dd = vaiR.distance(&coAoR) / 250.0 * 21.0;
+	putText(outImg, to_string(dd), Point((vaiR.x + coAoR.x) / 2, (vaiR.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 1.0, Scalar(0, 0, 255), 1);
 	// ----------------------------
 	// do co ao
 	line(
@@ -1523,8 +1525,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		8
 	);
 
-	 dd = coAoL.distance(&coAoR) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	 dd = coAoL.distance(&coAoR) / 250.0 * 21.0;
+	putText(outImg, to_string(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 1.0, Scalar(0, 0, 255), 1);
 	// ----------------------------
 
 	/*

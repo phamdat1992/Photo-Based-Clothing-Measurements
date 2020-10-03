@@ -105,10 +105,10 @@ Mat recCorners(Mat m, Mat im_src)
 
 	Mat im_out;
 	vector<Point2f> pts_dst;
-	pts_dst.push_back(Point2f(756, 0));
+	pts_dst.push_back(Point2f(250, 0));
 	pts_dst.push_back(Point2f(0, 0));
-	pts_dst.push_back(Point2f(0, 600.558));
-	pts_dst.push_back(Point2f(756, 600.558));
+	pts_dst.push_back(Point2f(0, 198.59));
+	pts_dst.push_back(Point2f(250, 198.59));
 
 	Mat h = findHomography(pts_src, pts_dst);
 	warpPerspective(im_src, im_out, h, (im_src.size()));

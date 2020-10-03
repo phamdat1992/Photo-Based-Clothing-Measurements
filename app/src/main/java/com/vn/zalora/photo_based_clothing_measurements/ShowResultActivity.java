@@ -42,8 +42,8 @@ public class ShowResultActivity extends Activity {
 
 
         Mat result = MainActivity.mRgba.clone();
-        Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.in1);
-        Utils.bitmapToMat(bmp, result);
+        //Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.in1);
+        //Utils.bitmapToMat(bmp, result);
         clothingMeasurement(result.getNativeObjAddr());
         resize(result, result, MainActivity.mRgba.size(), 0, 0, 1);
 
