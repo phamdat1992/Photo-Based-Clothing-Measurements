@@ -1062,10 +1062,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		for (int col = 0; col < inImg.cols; ++col)
 		{
 			int cc = *ptr;
-			//cout << cc;
 			if (cc != 0)
 			{
-				// cout << "dcm";
 				if (col > pointMax.x)
 				{
 					pointMax.assign(col, row);
@@ -1266,7 +1264,7 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 	// pointMin pointMax
 	// coAoL coAoR
 	// nachL nachR
-	Point2D vaiL, vaiR;
+	Point2D vaiL(0, inImg.rows), vaiR(0, inImg.rows);
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
 		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
@@ -1289,7 +1287,9 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 
 			if (y < nachL.y && ((cur1->p1.x <= x && x <= cur1->p2.x) || (cur1->p2.x <= x && x <= cur1->p1.x)) && ((cur1->p1.y <= y && y <= cur1->p2.y) || (cur1->p2.y <= y && y <= cur1->p1.y)))
 			{
-				vaiL.assign(x, y);
+				if (vaiL.y > y) {
+					vaiL.assign(x, y);
+				}
 			}
 		}
 
@@ -1313,7 +1313,9 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 
 			if (y < nachR.y && ((cur1->p1.x <= x && x <= cur1->p2.x) || (cur1->p2.x <= x && x <= cur1->p1.x)) && ((cur1->p1.y <= y && y <= cur1->p2.y) || (cur1->p2.y <= y && y <= cur1->p1.y)))
 			{
-				vaiR.assign(x, y);
+				if (vaiR.y > y) {
+					vaiR.assign(x, y);
+				}
 			}
 		}
 	}
@@ -1521,9 +1523,27 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		8
 	);
 
-	dd = coAoL.distance(&coAoR) / 756.0 * 21.0;
+	 dd = coAoL.distance(&coAoR) / 756.0 * 21.0;
 	putText(outImg, to_string(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
 	// ----------------------------
+
+	/*
+	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1) {
+		Point centerC1(cur1->p1.x, cur1->p1.y);
+		circle(outImg, centerC1, radius, colorCircle, FILLED);
+
+		Point centerC2(cur1->p2.x, cur1->p2.y);
+		circle(outImg, centerC2, radius, colorCircle, FILLED);
+		line(
+				outImg,
+				Point(cur1->p1.x, cur1->p1.y),
+				Point(cur1->p2.x, cur1->p2.y),
+				Scalar(0, 255, 0),
+				10,
+				8
+		);
+	}*/
+
 	log.close();
 
 	delete[] f1;
