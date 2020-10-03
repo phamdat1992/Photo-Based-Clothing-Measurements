@@ -1,3 +1,0 @@
-/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/release/armeabi-v7a/CMakeFiles/rebuild_cache.dir
-/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/release/armeabi-v7a/CMakeFiles/edit_cache.dir
-/home/groot/project/Photo-Based-Clothing-Measurements/app/.cxx/cmake/release/armeabi-v7a/CMakeFiles/native-lib.dir

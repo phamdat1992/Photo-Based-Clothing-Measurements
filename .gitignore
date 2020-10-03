@@ -4,4 +4,6 @@ Debug
 x64
 log.txt
 build
-./idea
+.idea
+.gradle
+app/.cxx
