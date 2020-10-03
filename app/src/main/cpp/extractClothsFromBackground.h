@@ -20,10 +20,10 @@ Mat removeNoise(Mat src)
 	for (int row = 0; row < src.rows; ++row)
 	{
 		uchar* ptr = src.ptr(row);
-		for (int col = 0; col < src.cols; ++col, ptr += 4)
+		for (int col = 0; col < src.cols; ++col, ptr += 1)
 		{
 			++index;
-			if (ptr[0] == 0 || ptr[1] == 0 || ptr[2] == 0 || ptr[3] == 0)
+			if (ptr[0] == 0)
 			{
 				dt[index] = 1;
 
@@ -99,21 +99,21 @@ Mat removeNoise(Mat src)
 	for (int row = 0; row < src.rows; ++row)
 	{
 		uchar* ptr = src.ptr(row);
-		for (int col = 0; col < src.cols; ++col, ptr += 4, ++index)
+		for (int col = 0; col < src.cols; ++col, ptr += 1, ++index)
 		{
 			int fl = unionGet(index, lt);
 			if (fl != ffmax)
 			{
-				ptr[0] = ptr[1] = ptr[2] = ptr[3] = 255;
+				ptr[0] = 255;
 			}
 			else
 			{
-				ptr[0] = ptr[1] = ptr[2] = ptr[3] = 0;
+				ptr[0] = 0;
 			}
 		}
 	}
 
-	cvtColor(src, src, COLOR_BGR2GRAY);
+	//cvtColor(src, src, COLOR_BGR2GRAY);
 	Mat se = getStructuringElement(MORPH_RECT, Size(10, 10));
 	Mat out;
 	morphologyEx(src, out, MORPH_CLOSE, se);
@@ -258,5 +258,10 @@ Mat extractClothsFromBackground(Mat src)
 	delete[] lt;
 	delete[] dt;
 
-	return removeNoise(src);
+    cvtColor(src, src, COLOR_BGR2GRAY);
+    Mat se = getStructuringElement(MORPH_RECT, Size(10, 10));
+    Mat out;
+    morphologyEx(src, out, MORPH_CLOSE, se);
+
+	return removeNoise(removeNoise(out));
 }
