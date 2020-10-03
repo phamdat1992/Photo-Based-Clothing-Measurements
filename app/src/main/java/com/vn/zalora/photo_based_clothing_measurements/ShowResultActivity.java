@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 import org.opencv.android.JavaCameraView;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
+
+import static org.opencv.imgproc.Imgproc.resize;
 
 public class ShowResultActivity extends Activity {
 
@@ -39,7 +42,10 @@ public class ShowResultActivity extends Activity {
 
 
         Mat result = MainActivity.mRgba.clone();
+        Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.in1);
+        Utils.bitmapToMat(bmp, result);
         clothingMeasurement(result.getNativeObjAddr());
+        resize(result, result, MainActivity.mRgba.size(), 0, 0, 1);
 
         Bitmap resultBitmap = Bitmap.createBitmap(result.cols(),  result.rows(), Bitmap.Config.ARGB_8888);;
         Utils.matToBitmap(result, resultBitmap);

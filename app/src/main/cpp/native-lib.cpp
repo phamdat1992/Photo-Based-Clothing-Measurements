@@ -22,9 +22,6 @@ Java_com_vn_zalora_photo_1based_1clothing_1measurements_ShowResultActivity_cloth
 
     Mat outImg = recDetect(inImg);
     outImg = recCorners(outImg, inImg);
-    //resize(outImg, inImg, inImg.size(), 0, 0, 1);
-    inImg = outImg;
-    /*
     outImg = extractClothsFromBackground(outImg);
-    inImg = photoBasedClothingMeasurements(outImg);*/
+    inImg = photoBasedClothingMeasurements(outImg);
 }
