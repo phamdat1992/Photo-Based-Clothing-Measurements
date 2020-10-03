@@ -1005,6 +1005,27 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		}
 	}
 
+	cvtColor(outImg, outImg, COLOR_GRAY2RGB);
+
+	int radius = 15;
+	Scalar colorCircle(0, 0, 255);
+	for (list<Edge>::iterator cur1 = result.begin(); cur1 != result.end(); ++cur1) {
+		Point centerC1(cur1->p1.x, cur1->p1.y);
+		circle(outImg, centerC1, radius, colorCircle, FILLED);
+		Point centerC2(cur1->p2.x, cur1->p2.y);
+		circle(outImg, centerC2, radius, colorCircle, FILLED);
+		line(
+			outImg,
+			Point(cur1->p1.x, cur1->p1.y),
+			Point(cur1->p2.x, cur1->p2.y),
+			Scalar(0, 255, 0),
+			10,
+			8
+		);
+	}
+
+	return outImg;
+
 	list<Edge> ttr;
 	ttr.push_front((*result.begin()));
 	while (ttr.size() < result.size())
@@ -1058,8 +1079,8 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		}
 	}
 
-	int radius = 15;
-	Scalar colorCircle(0, 0, 255);
+	//int radius = 15;
+	//Scalar colorCircle(0, 0, 255);
 
 	Point centerCircle1(pointMin.x, pointMin.y);
 	circle(outImg, centerCircle1, radius, colorCircle, FILLED);

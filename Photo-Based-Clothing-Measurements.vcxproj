@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="dcm.bmp" />
+    <Image Include="extractCloth.bmp" />
     <Image Include="in1.jpg" />
     <Image Include="in2.jpg" />
     <Image Include="in3.jpg" />
@@ -157,6 +158,8 @@
     <Image Include="in7.jpg" />
     <Image Include="in8.jpg" />
     <Image Include="in9.jpg" />
+    <Image Include="out_rec.bmp" />
+    <Image Include="out_test.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt" />

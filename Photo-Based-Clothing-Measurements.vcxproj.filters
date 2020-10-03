@@ -50,6 +50,15 @@
     <Image Include="dcm.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="extractCloth.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="out_rec.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="out_test.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt" />
