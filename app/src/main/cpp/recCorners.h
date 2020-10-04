@@ -111,7 +111,7 @@ Mat recCorners(Mat m, Mat im_src)
 	pts_dst.push_back(Point2f(250, 198.59));
 
 	Mat h = findHomography(pts_src, pts_dst);
-	warpPerspective(im_src, im_out, h, (im_src.size()));
+	warpPerspective(im_src, im_out, h, (im_src.size()*2));
 
 	int xMax = 0;
 	int yMax = 0;
