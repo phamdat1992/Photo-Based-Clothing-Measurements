@@ -328,12 +328,12 @@ bool isInside(vector<Point2D> polygon, int n, Point2D* p)
 	return (count % 2) == 1;
 }
 
-Mat photoBasedClothingMeasurements(Mat inImg)
+Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 {
 	string imageName;
 	Mat outImg;
 	ofstream log;
-	log.open("log.txt");
+	log.open(fileLog);
 
 	outImg = inImg.clone();
 
@@ -361,7 +361,7 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 	for (int row = 0; row < inImg.rows; ++row)
 	{
 		if (row == 901) {
-			cout << "debug";
+			// cout << "debug";
 		}
 		const uchar* ptr = inImg.ptr(row);
 
@@ -1002,10 +1002,6 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 		Point centerC2(cur1->p2.x, cur1->p2.y);
 		circle(outImg, centerC2, radius, colorCircle, FILLED);
 
-		if (cur1->p1.y > 750 && cur1->p1.y < 760 || cur1->p2.y > 750 && cur1->p2.y < 760) {
-			cout << "aaaaa";
-		}
-
 		line(
 			outImg,
 			Point(cur1->p1.x, cur1->p1.y),
@@ -1015,7 +1011,10 @@ Mat photoBasedClothingMeasurements(Mat inImg)
 			8
 		);
 	}
-	return outImg;
+	//return outImg;
+
+	imwrite(debugImage, outImg);
+
 	list<Edge> ttr;
 	ttr.push_front((*result.begin()));
 	while (ttr.size() < result.size())

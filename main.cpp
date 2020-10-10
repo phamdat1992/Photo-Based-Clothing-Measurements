@@ -7,16 +7,16 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-	Mat inImg = imread("./in4.jpg", IMREAD_COLOR);
+	if (argc == 5)
+	{
+		Mat inImg = imread(argv[1], IMREAD_COLOR);
 
-	Mat outImg = recDetect(inImg);
-	imwrite("./out_rec.bmp", outImg);
-	outImg = recCorners(outImg, inImg);
-	imwrite("./out_test.bmp", outImg);
-	outImg = extractClothsFromBackground(outImg);
-	imwrite("./extractCloth.bmp", outImg);
-	outImg = photoBasedClothingMeasurements(outImg);
-	imwrite("./out.bmp", outImg);
+		Mat outImg = recDetect(inImg);
+		outImg = recCorners(outImg, inImg);
+		outImg = extractClothsFromBackground(outImg);
+		outImg = photoBasedClothingMeasurements(outImg, argv[3], argv[4]);
+		imwrite(argv[2], outImg);
+	}
 }

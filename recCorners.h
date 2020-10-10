@@ -21,8 +21,8 @@ Mat recCorners(Mat m, Mat im_src)
 	vector<Point> approx;
 
 	double d = 0;
-	
-	
+
+
 	int midX = 0;
 	int midY = 0;
 	for (int i = 0; i < contours[0].size(); ++i) {
@@ -105,13 +105,31 @@ Mat recCorners(Mat m, Mat im_src)
 
 	Mat im_out;
 	vector<Point2f> pts_dst;
-	pts_dst.push_back(Point2f(756, 0));
+	pts_dst.push_back(Point2f(250, 0));
 	pts_dst.push_back(Point2f(0, 0));
-	pts_dst.push_back(Point2f(0, 600.558));
-	pts_dst.push_back(Point2f(756, 600.558));
+	pts_dst.push_back(Point2f(0, 198.59));
+	pts_dst.push_back(Point2f(250, 198.59));
 
 	Mat h = findHomography(pts_src, pts_dst);
-	warpPerspective(im_src, im_out, h, (im_src.size()));
+	warpPerspective(im_src, im_out, h, (im_src.size() * 2));
+
+	int xMax = 0;
+	int yMax = 0;
+	for (int row = 0; row < im_out.rows; ++row)
+	{
+		uchar* ptr = im_out.ptr(row);
+		for (int col = 0; col < im_out.cols; ++col, ptr += 3)
+		{
+			if (!(ptr[0] == 0 && ptr[1] == 0 && ptr[2] == 0))
+			{
+				xMax = max(xMax, col);
+				yMax = max(yMax, row);
+			}
+		}
+	}
+
+	Rect myROI(0, 0, xMax, yMax);
+	im_out(myROI).copyTo(im_out);
 
 	return im_out;
 }

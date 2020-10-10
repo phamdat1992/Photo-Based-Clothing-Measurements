@@ -22,10 +22,6 @@ Mat removeNoise(Mat src)
 		uchar* ptr = src.ptr(row);
 		for (int col = 0; col < src.cols; ++col, ptr += 1)
 		{
-			if (row == 1651 && col == 2499) {
-				cout << "test";
-			}
-
 			++index;
 			if (ptr[0] == 0)
 			{
@@ -105,9 +101,6 @@ Mat removeNoise(Mat src)
 		uchar* ptr = src.ptr(row);
 		for (int col = 0; col < src.cols; ++col, ptr += 1, ++index)
 		{
-			if (row == 1651 && col == 2499) {
-				cout << "test";
-			}
 			int fl = unionGet(index, lt);
 			if (fl != ffmax)
 			{
