@@ -59,6 +59,9 @@
     <Image Include="out_test.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="out.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt" />

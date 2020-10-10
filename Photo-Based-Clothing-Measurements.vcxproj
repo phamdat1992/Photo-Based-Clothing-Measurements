@@ -158,6 +158,7 @@
     <Image Include="in7.jpg" />
     <Image Include="in8.jpg" />
     <Image Include="in9.jpg" />
+    <Image Include="out.bmp" />
     <Image Include="out_rec.bmp" />
     <Image Include="out_test.bmp" />
   </ItemGroup>
