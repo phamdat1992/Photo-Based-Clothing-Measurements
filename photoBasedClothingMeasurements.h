@@ -5,7 +5,7 @@
 using namespace std;
 using namespace cv;
 
-const double ALPHA_J = 10.0;
+const double ALPHA_J = 5.0;
 const double EPS = 0.001;
 const double PI = 3.14159265;
 
@@ -326,6 +326,23 @@ bool isInside(vector<Point2D> polygon, int n, Point2D* p)
 	} while (i != 0);
 
 	return (count % 2) == 1;
+}
+
+string precision2(double number)
+{
+	int decimalPart = (number * 100) - ((int)number * 100);
+	if (decimalPart > 10) 
+	{
+		return std::to_string((int)number) + "." + std::to_string(decimalPart);
+	}
+	else if (decimalPart > 0)
+	{
+		return std::to_string((int)number) + ".0" + std::to_string(decimalPart);
+	}
+	else
+	{
+		return std::to_string((int)number);
+	}
 }
 
 Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
@@ -990,13 +1007,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 	}
 
 	cvtColor(outImg, outImg, COLOR_GRAY2RGB);
-	//return outImg;
-
-	result = ledges;
-	int radius = 15;
-	//return outImg;
+	Mat resultImg = outImg.clone();
+	int radius = 10;
 	Scalar colorCircle(0, 0, 255);
-	for (list<Edge>::iterator cur1 = result.begin(); cur1 != result.end(); ++cur1) {
+	for (list<Edge>::iterator cur1 = ledges.begin(); cur1 != ledges.end(); ++cur1) {
 		Point centerC1(cur1->p1.x, cur1->p1.y);
 		circle(outImg, centerC1, radius, colorCircle, FILLED);
 		Point centerC2(cur1->p2.x, cur1->p2.y);
@@ -1007,11 +1021,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 			Point(cur1->p1.x, cur1->p1.y),
 			Point(cur1->p2.x, cur1->p2.y),
 			Scalar(0, 255, 0),
-			10,
-			8
+			3,
+			3
 		);
 	}
-	//return outImg;
 
 	imwrite(debugImage, outImg);
 
@@ -1072,10 +1085,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 	//Scalar colorCircle(0, 0, 255);
 
 	Point centerCircle1(pointMin.x, pointMin.y);
-	circle(outImg, centerCircle1, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle1, radius, colorCircle, FILLED);
 
 	Point centerCircle2(pointMax.x, pointMax.y);
-	circle(outImg, centerCircle2, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle2, radius, colorCircle, FILLED);
 
 	double d1 = numeric_limits<double>::max();
 	double d2 = numeric_limits<double>::max();
@@ -1153,10 +1166,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 	}
 
 	Point centerCircle3(coAoL.x, coAoL.y);
-	circle(outImg, centerCircle3, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle3, radius, colorCircle, FILLED);
 
 	Point centerCircle4(coAoR.x, coAoR.y);
-	circle(outImg, centerCircle4, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle4, radius, colorCircle, FILLED);
 
 	int center = inImg.rows - (inImg.rows / 3);
 	dx1 = ttr.end();
@@ -1246,10 +1259,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 	}
 
 	Point centerCircle5(nachL.x, nachL.y);
-	circle(outImg, centerCircle5, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle5, radius, colorCircle, FILLED);
 
 	Point centerCircle6(nachR.x, nachR.y);
-	circle(outImg, centerCircle6, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle6, radius, colorCircle, FILLED);
 
 	// pointMin pointMax
 	// coAoL coAoR
@@ -1307,10 +1320,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 	}
 
 	Point centerCircle7(vaiL.x, vaiL.y);
-	circle(outImg, centerCircle7, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle7, radius, colorCircle, FILLED);
 
 	Point centerCircle8(vaiR.x, vaiR.y);
-	circle(outImg, centerCircle8, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle8, radius, colorCircle, FILLED);
 
 	// pointMin pointMax
 	// coAoL coAoR
@@ -1361,10 +1374,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 	}
 
 	Point centerCircle9(pointTop.x, pointTop.y);
-	circle(outImg, centerCircle9, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle9, radius, colorCircle, FILLED);
 
 	Point centerCircle10(pointLow.x, pointLow.y);
-	circle(outImg, centerCircle10, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle10, radius, colorCircle, FILLED);
 
 	// pointMin pointMax
 	// coAoL coAoR
@@ -1409,10 +1422,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 	}
 
 	Point centerCircle11(eoL.x, eoL.y);
-	circle(outImg, centerCircle11, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle11, radius, colorCircle, FILLED);
 
 	Point centerCircle12(eoR.x, eoR.y);
-	circle(outImg, centerCircle12, radius, colorCircle, FILLED);
+	circle(resultImg, centerCircle12, radius, colorCircle, FILLED);
 
 	// pointMin pointMax
 	// coAoL coAoR
@@ -1423,94 +1436,94 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 	// do em
 	line(
-		outImg,
+		resultImg,
 		Point(eoL.x, eoL.y),
 		Point(eoR.x, eoR.y),
 		Scalar(0, 255, 0),
-		10,
-		8
+		3,
+		3
 	);
 
 	double dd = eoL.distance(&eoR) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((eoL.x + eoR.x) / 2, (eoL.y + eoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	putText(resultImg, precision2(dd), Point((eoL.x + eoR.x) / 2, (eoL.y + eoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
 	// ----------------------------
 	// do chieu cao
 	line(
-		outImg,
+		resultImg,
 		Point(pointTop.x, pointTop.y),
 		Point(pointLow.x, pointLow.y),
 		Scalar(0, 255, 0),
-		10,
-		8
+		3,
+		3
 	);
 
 	dd = pointLow.distance(&pointTop) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((pointLow.x + pointTop.x) / 2, (pointLow.y + pointTop.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	putText(resultImg, precision2(dd), Point((pointLow.x + pointTop.x) / 2, (pointLow.y + pointTop.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
 	// ----------------------------
 	// do tay ao trai
 	line(
-		outImg,
+		resultImg,
 		Point(pointMin.x, pointMin.y),
 		Point(vaiL.x, vaiL.y),
 		Scalar(0, 255, 0),
-		10,
-		8
+		3,
+		3
 	);
 
 	dd = pointMin.distance(&vaiL) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((pointMin.x + vaiL.x) / 2, (pointMin.y + vaiL.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	putText(resultImg, precision2(dd), Point((pointMin.x + vaiL.x) / 2, (pointMin.y + vaiL.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
 	// ----------------------------
 	// do tay ao phai
 	line(
-		outImg,
+		resultImg,
 		Point(pointMax.x, pointMax.y),
 		Point(vaiR.x, vaiR.y),
 		Scalar(0, 255, 0),
-		10,
-		8
+		3,
+		3
 	);
 
 	dd = pointMax.distance(&vaiR) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	putText(resultImg, precision2(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
 	// ----------------------------
 	// do vai trai
 	line(
-		outImg,
+		resultImg,
 		Point(vaiL.x, vaiL.y),
 		Point(coAoL.x, coAoL.y),
 		Scalar(0, 255, 0),
-		10,
-		8
+		3,
+		3
 	);
 
 	dd = vaiL.distance(&coAoL) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((vaiL.x + coAoL.x) / 2, (vaiL.y + coAoL.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	putText(resultImg, precision2(dd), Point((vaiL.x + coAoL.x) / 2, (vaiL.y + coAoL.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
 	// ----------------------------
 	// do vai phai
 	line(
-		outImg,
+		resultImg,
 		Point(vaiR.x, vaiR.y),
 		Point(coAoR.x, coAoR.y),
 		Scalar(0, 255, 0),
-		10,
-		8
+		3,
+		3
 	);
 
 	dd = vaiR.distance(&coAoR) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((vaiR.x + coAoR.x) / 2, (vaiR.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	putText(resultImg, precision2(dd), Point((vaiR.x + coAoR.x) / 2, (vaiR.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
 	// ----------------------------
 	// do co ao
 	line(
-		outImg,
+		resultImg,
 		Point(coAoL.x, coAoL.y),
 		Point(coAoR.x, coAoR.y),
 		Scalar(0, 255, 0),
-		10,
-		8
+		3,
+		3
 	);
 
 	dd = coAoL.distance(&coAoR) / 756.0 * 21.0;
-	putText(outImg, to_string(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 3.0, Scalar(0, 0, 255), 3);
+	putText(resultImg, precision2(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
 	// ----------------------------
 	log.close();
 
@@ -1520,5 +1533,5 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 	delete[] cc1;
 	delete[] cc2;
 
-	return outImg;
+	return resultImg;
 }
