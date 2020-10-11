@@ -347,6 +347,8 @@ string precision2(double number)
 
 Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage, String fileOut)
 {
+	Point2D dcm1(393, 228), dcm2(435, 267);
+
 	string imageName;
 	Mat outImg;
 	ofstream log, out;
@@ -378,8 +380,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 	int nchannels = 1;
 	for (int row = 0; row < inImg.rows; ++row)
 	{
-		if (row == 901) {
-			// cout << "debug";
+		if (row == 290) {
+			cout << "debug";
 		}
 		const uchar* ptr = inImg.ptr(row);
 
@@ -748,7 +750,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 									{
 										if (curEdge->p1.equal(&curEdge->p2))
 										{
-											ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].l, pRow)));
+											Point2D temp(f1[j].l, pRow);
+											ledges.push_back(Edge(&curEdge->p1, &temp));
 										}
 										else if (curEdge->p2.equal(f1[j].l, pRow))
 										{
@@ -760,9 +763,13 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 										}
 										else
 										{
-											ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
-											ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].l, pRow)));
-											ledges.push_back(Edge(&curEdge->p2, &Point2D(f1[j].l, pRow)));
+											Point2D temp(f1[j].l, pRow);
+											if (!curEdge->p1.equal(&curEdge->p2) && !curEdge->p1.equal(&temp) && !curEdge->p2.equal(&temp))
+											{
+												ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+												ledges.push_back(Edge(&curEdge->p1, &temp));
+												ledges.push_back(Edge(&curEdge->p2, &temp));
+											}
 										}
 
 										/*
@@ -790,13 +797,13 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 
 							{
 								int newEdgeId = edgeStack.getEdgeFromStack(currentImageId);
-
+								Point2D temp(f1[j].l, pRow);
 								edgeStack.getEdge(newEdgeId)->setEdge(
 									currentImageId,
 									cc1[idLeftUp].edgeID,
 									(f1[j].l == bk.x) ? numeric_limits<double>::max() : ((double)f1[j].l - bk.x) / ((double)pRow - bk.y + EPS),
 									true,
-									&Point2D(f1[j].l, pRow),
+									&temp,
 									&bk
 								);
 								cc1[idLeftUp].edgeID = newEdgeId;
@@ -836,13 +843,14 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 							{
 								int newEdgeId = edgeStack.getEdgeFromStack(currentImageId);
 								Edge* curEdge = edgeStack.getEdge(fflag2);
+								Point2D temp(f1[j].r, pRow);
 								edgeStack.getEdge(newEdgeId)->setEdge(
 									currentImageId,
 									-1,
 									(f1[j].r == curEdge->p1.x) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p1.x) / ((double)pRow - curEdge->p1.y + EPS),
 									false,
 									&curEdge->p1,
-									&Point2D(f1[j].r, pRow)
+									&temp
 								);
 								cc2[j].edgeID = newEdgeId;
 							}
@@ -852,13 +860,14 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 
 								int newEdgeId = edgeStack.getEdgeFromStack(currentImageId);
 								Edge* curEdge = edgeStack.getEdge(fflag1);
+								Point2D temp(f1[j].r, pRow);
 								edgeStack.getEdge(newEdgeId)->setEdge(
 									currentImageId,
 									-1,
 									(f1[j].r == curEdge->p2.x) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p2.x) / ((double)pRow - curEdge->p2.y + EPS),
 									false,
 									&curEdge->p2,
-									&Point2D(f1[j].r, pRow)
+									&temp
 								);
 
 								curEdge->pNext = newEdgeId;
@@ -895,7 +904,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 									{
 										if (curEdge->p1.equal(&curEdge->p2))
 										{
-											ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].r, pRow)));
+											Point2D temp(f1[j].r, pRow);
+											ledges.push_back(Edge(&curEdge->p1, &temp));
 										}
 										else if (curEdge->p2.equal(f1[j].r, pRow))
 										{
@@ -907,9 +917,13 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 										}
 										else
 										{
-											ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
-											ledges.push_back(Edge(&curEdge->p1, &Point2D(f1[j].r, pRow)));
-											ledges.push_back(Edge(&curEdge->p2, &Point2D(f1[j].r, pRow)));
+											Point2D temp(f1[j].r, pRow);
+											if (!curEdge->p1.equal(&curEdge->p2) && !curEdge->p1.equal(&temp) && !curEdge->p2.equal(&temp))
+											{
+												ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+												ledges.push_back(Edge(&curEdge->p1, &temp));
+												ledges.push_back(Edge(&curEdge->p2, &temp));
+											}
 										}
 
 										/*
@@ -935,12 +949,13 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 							}
 
 							int newEdgeId = edgeStack.getEdgeFromStack(currentImageId);
+							Point2D temp(f1[j].r, pRow);
 							edgeStack.getEdge(newEdgeId)->setEdge(
 								currentImageId,
 								cc1[idLeftUp].edgeID,
 								(f1[j].r == bk.x) ? numeric_limits<double>::max() : ((double)f1[j].r - bk.x) / ((double)pRow - bk.y + EPS),
 								true,
-								&Point2D(f1[j].r, pRow),
+								&temp,
 								&bk
 							);
 							edgeStack.getEdge(newEdgeId)->pNext = cc1[idLeftUp].edgeID;
@@ -985,12 +1000,22 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		swap(lenc1, lenc2);
 	}
 
+	log.close();
+
 	list<Edge> result;
 	for (list<Edge>::iterator cur1 = ledges.begin(); cur1 != ledges.end(); ++cur1)
 	{
+		if (cur1->equal(&dcm1, &dcm2))
+		{
+			cout << "dcm";
+		}
 		bool check = true;
 		for (list<Edge>::iterator cur2 = ledges.begin(); cur2 != ledges.end(); ++cur2)
 		{
+			if (cur2->equal(&dcm1, &dcm2))
+			{
+				cout << "dcm";
+			}
 			if (cur1 != cur2)
 			{
 				if (cur1->equal(&cur2->p1, &cur2->p2))
@@ -1009,6 +1034,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 
 	cvtColor(outImg, outImg, COLOR_GRAY2RGB);
 	Mat resultImg = outImg.clone();
+	imwrite(debugImage, outImg);
 	int radius = 10;
 	Scalar colorCircle(0, 0, 255);
 	for (list<Edge>::iterator cur1 = ledges.begin(); cur1 != ledges.end(); ++cur1) {
@@ -1027,7 +1053,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		);
 	}
 
-	imwrite(debugImage, outImg);
+	//imwrite(debugImage, outImg);
 
 	list<Edge> ttr;
 	ttr.push_front((*result.begin()));
@@ -1036,7 +1062,17 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		list<Edge>::iterator cur1 = ttr.begin();
 		for (list<Edge>::iterator cur2 = result.begin(); cur2 != result.end(); ++cur2)
 		{
-			if (!cur1->equal(&cur2->p1, &cur2->p2))
+			bool check = true;
+			for (list<Edge>::iterator cur3 = ttr.begin(); cur3 != ttr.end(); ++cur3)
+			{
+				if (cur2->equal(&cur3->p1, &cur3->p2))
+				{
+					check = false;
+					break;
+				}
+			}
+
+			if (check == true)
 			{
 				if (cur1->p1.equal(&cur2->p1))
 				{
@@ -1539,7 +1575,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 	putText(resultImg, precision2(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
 	out << "neck " << precision2(dd) << endl;
 	// ----------------------------
-	log.close();
+	out.close();
 
 	delete[] f1;
 	delete[] f2;
