@@ -1519,7 +1519,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileLog,
 	dd = pointMax.distance(&vaiR) / 250.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	sleeve += dd;
-	out << "sleeve " << precision2(sleeve) << endl;
+	out << "sleeve " << precision2(sleeve / 2.0) << endl;
 	// ----------------------------
 	// do vai trai
 	line(
