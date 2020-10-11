@@ -345,7 +345,7 @@ string precision2(double number)
 	}
 }
 
-Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage, String fileOut)
+Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileLog, String fileOut)
 {
 	Point2D dcm1(393, 228), dcm2(435, 267);
 
@@ -381,7 +381,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 	for (int row = 0; row < inImg.rows; ++row)
 	{
 		if (row == 290) {
-			cout << "debug";
+			// cout << "debug";
 		}
 		const uchar* ptr = inImg.ptr(row);
 
@@ -748,23 +748,22 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 								{
 									if (f1[idLeftDown].color != 0)
 									{
-										if (curEdge->p1.equal(&curEdge->p2))
+										Point2D temp(f1[j].l, pRow);
+										if (!curEdge->p1.equal(&curEdge->p2) && !curEdge->p1.equal(&temp) && !curEdge->p2.equal(&temp))
 										{
-											Point2D temp(f1[j].l, pRow);
-											ledges.push_back(Edge(&curEdge->p1, &temp));
-										}
-										else if (curEdge->p2.equal(f1[j].l, pRow))
-										{
-											ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
-										}
-										else if (curEdge->p1.equal(f1[j].l, pRow))
-										{
-											ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
-										}
-										else
-										{
-											Point2D temp(f1[j].l, pRow);
-											if (!curEdge->p1.equal(&curEdge->p2) && !curEdge->p1.equal(&temp) && !curEdge->p2.equal(&temp))
+											if (curEdge->p1.equal(&curEdge->p2))
+											{
+												ledges.push_back(Edge(&curEdge->p1, &temp));
+											}
+											else if (curEdge->p2.equal(f1[j].l, pRow))
+											{
+												ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+											}
+											else if (curEdge->p1.equal(f1[j].l, pRow))
+											{
+												ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+											}
+											else
 											{
 												ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
 												ledges.push_back(Edge(&curEdge->p1, &temp));
@@ -902,23 +901,22 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 
 									if (f1[idLeftDown].color != 0)
 									{
-										if (curEdge->p1.equal(&curEdge->p2))
+										Point2D temp(f1[j].r, pRow);
+										if (!curEdge->p1.equal(&curEdge->p2) && !curEdge->p1.equal(&temp) && !curEdge->p2.equal(&temp))
 										{
-											Point2D temp(f1[j].r, pRow);
-											ledges.push_back(Edge(&curEdge->p1, &temp));
-										}
-										else if (curEdge->p2.equal(f1[j].r, pRow))
-										{
-											ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
-										}
-										else if (curEdge->p1.equal(f1[j].r, pRow))
-										{
-											ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
-										}
-										else
-										{
-											Point2D temp(f1[j].r, pRow);
-											if (!curEdge->p1.equal(&curEdge->p2) && !curEdge->p1.equal(&temp) && !curEdge->p2.equal(&temp))
+											if (curEdge->p1.equal(&curEdge->p2))
+											{
+												ledges.push_back(Edge(&curEdge->p1, &temp));
+											}
+											else if (curEdge->p2.equal(f1[j].r, pRow))
+											{
+												ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+											}
+											else if (curEdge->p1.equal(f1[j].r, pRow))
+											{
+												ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
+											}
+											else
 											{
 												ledges.push_back(Edge(&curEdge->p1, &curEdge->p2));
 												ledges.push_back(Edge(&curEdge->p1, &temp));
@@ -1005,17 +1003,9 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 	list<Edge> result;
 	for (list<Edge>::iterator cur1 = ledges.begin(); cur1 != ledges.end(); ++cur1)
 	{
-		if (cur1->equal(&dcm1, &dcm2))
-		{
-			cout << "dcm";
-		}
 		bool check = true;
 		for (list<Edge>::iterator cur2 = ledges.begin(); cur2 != ledges.end(); ++cur2)
 		{
-			if (cur2->equal(&dcm1, &dcm2))
-			{
-				cout << "dcm";
-			}
 			if (cur1 != cur2)
 			{
 				if (cur1->equal(&cur2->p1, &cur2->p2))
@@ -1034,9 +1024,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 
 	cvtColor(outImg, outImg, COLOR_GRAY2RGB);
 	Mat resultImg = outImg.clone();
-	imwrite(debugImage, outImg);
 	int radius = 10;
-	Scalar colorCircle(0, 0, 255);
+	Scalar colorCircle(255, 0, 0);
 	for (list<Edge>::iterator cur1 = ledges.begin(); cur1 != ledges.end(); ++cur1) {
 		Point centerC1(cur1->p1.x, cur1->p1.y);
 		circle(outImg, centerC1, radius, colorCircle, FILLED);
@@ -1053,7 +1042,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		);
 	}
 
-	//imwrite(debugImage, outImg);
+	imwrite(debugImage, outImg);
 
 	list<Edge> ttr;
 	ttr.push_front((*result.begin()));
@@ -1485,8 +1474,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		3
 	);
 
-	double dd = eoL.distance(&eoR) / 756.0 * 21.0;
-	putText(resultImg, precision2(dd), Point((eoL.x + eoR.x) / 2, (eoL.y + eoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	double dd = eoL.distance(&eoR) / 250.0 * 21.0;
+	putText(resultImg, precision2(dd), Point((eoL.x + eoR.x) / 2, (eoL.y + eoR.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	out << "waist " << precision2(dd) << endl;
 	// ----------------------------
 	// do chieu cao
@@ -1499,8 +1488,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		3
 	);
 
-	dd = pointLow.distance(&pointTop) / 756.0 * 21.0;
-	putText(resultImg, precision2(dd), Point((pointLow.x + pointTop.x) / 2, (pointLow.y + pointTop.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	dd = pointLow.distance(&pointTop) / 250.0 * 21.0;
+	putText(resultImg, precision2(dd), Point((pointLow.x + pointTop.x) / 2, (pointLow.y + pointTop.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	out << "length " << precision2(dd) << endl;
 	// ----------------------------
 	// do tay ao trai
@@ -1513,8 +1502,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		3
 	);
 
-	dd = pointMin.distance(&vaiL) / 756.0 * 21.0;
-	putText(resultImg, precision2(dd), Point((pointMin.x + vaiL.x) / 2, (pointMin.y + vaiL.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	dd = pointMin.distance(&vaiL) / 250.0 * 21.0;
+	putText(resultImg, precision2(dd), Point((pointMin.x + vaiL.x) / 2, (pointMin.y + vaiL.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	double sleeve = dd;
 	// ----------------------------
 	// do tay ao phai
@@ -1527,10 +1516,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		3
 	);
 
-	dd = pointMax.distance(&vaiR) / 756.0 * 21.0;
-	putText(resultImg, precision2(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	dd = pointMax.distance(&vaiR) / 250.0 * 21.0;
+	putText(resultImg, precision2(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	sleeve += dd;
-	cout << "sleeve " << precision2(sleeve) << endl;
+	out << "sleeve " << precision2(sleeve) << endl;
 	// ----------------------------
 	// do vai trai
 	line(
@@ -1542,8 +1531,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		3
 	);
 
-	dd = vaiL.distance(&coAoL) / 756.0 * 21.0;
-	putText(resultImg, precision2(dd), Point((vaiL.x + coAoL.x) / 2, (vaiL.y + coAoL.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	dd = vaiL.distance(&coAoL) / 250.0 * 21.0;
+	putText(resultImg, precision2(dd), Point((vaiL.x + coAoL.x) / 2, (vaiL.y + coAoL.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	double shoulder = dd;
 	// ----------------------------
 	// do vai phai
@@ -1556,8 +1545,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		3
 	);
 
-	dd = vaiR.distance(&coAoR) / 756.0 * 21.0;
-	putText(resultImg, precision2(dd), Point((vaiR.x + coAoR.x) / 2, (vaiR.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	dd = vaiR.distance(&coAoR) / 250.0 * 21.0;
+	putText(resultImg, precision2(dd), Point((vaiR.x + coAoR.x) / 2, (vaiR.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	shoulder += dd;
 	out << "shoulder " << precision2(shoulder / 2.0) << endl;
 	// ----------------------------
@@ -1571,8 +1560,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage,
 		3
 	);
 
-	dd = coAoL.distance(&coAoR) / 756.0 * 21.0;
-	putText(resultImg, precision2(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	dd = coAoL.distance(&coAoR) / 250.0 * 21.0;
+	putText(resultImg, precision2(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	out << "neck " << precision2(dd) << endl;
 	// ----------------------------
 	out.close();

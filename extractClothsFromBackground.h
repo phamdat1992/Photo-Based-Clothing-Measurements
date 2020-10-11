@@ -224,14 +224,14 @@ Mat extractClothsFromBackground(Mat src)
 		}
 	}
 
-	int max = 0;
+	int maxDcm = 0;
 	int ffmax = 0;
 	for (int i = 0; i < size; ++i)
 	{
 		int fl = unionGet(i, lt);
-		if (dt[fl] > max)
+		if (dt[fl] > maxDcm)
 		{
-			max = dt[fl];
+			maxDcm = dt[fl];
 			ffmax = fl;
 		}
 	}
@@ -263,5 +263,39 @@ Mat extractClothsFromBackground(Mat src)
 	morphologyEx(src, out, MORPH_CLOSE, se);
 
 	//Mat temp = removeNoise(src);
-	return removeNoise(removeNoise(out));
+	out = removeNoise(removeNoise(out));
+
+	int xMax = 0;
+	int yMax = 0;
+	int xMin = out.cols;
+	int yMin = out.rows;
+	for (int row = 0; row < out.rows; ++row)
+	{
+		uchar* ptr = out.ptr(row);
+		for (int col = 0; col < out.cols; ++col, ptr += 1)
+		{
+			if (!(ptr[0] == 0))
+			{
+				if (row == 1184)
+				{
+					cout << "debug";
+				}
+				xMax = max(xMax, col);
+				yMax = max(yMax, row);
+				yMin = min(yMin, row);
+				xMin = min(xMin, col);
+			}
+		}
+	}
+
+	int delta = 200;
+	delta = min(delta, xMin);
+	delta = min(delta, yMin);
+	delta = min(delta, out.cols - xMax);
+	delta = min(delta, out.rows - yMax);
+
+	Rect myROI(xMin - delta, yMin - delta, xMax - xMin + delta*2, yMax - yMin + delta*2);
+	out(myROI).copyTo(out);
+
+	return out;
 }
