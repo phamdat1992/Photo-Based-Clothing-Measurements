@@ -345,12 +345,13 @@ string precision2(double number)
 	}
 }
 
-Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
+Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage, String fileOut)
 {
 	string imageName;
 	Mat outImg;
-	ofstream log;
+	ofstream log, out;
 	log.open(fileLog);
+	out.open(fileOut);
 
 	outImg = inImg.clone();
 
@@ -1267,7 +1268,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 	// pointMin pointMax
 	// coAoL coAoR
 	// nachL nachR
-	Point2D vaiL, vaiR;
+	Point2D vaiL(0, inImg.rows), vaiR(0, inImg.rows);
 	for (list<Edge>::iterator cur1 = ttr.begin(); cur1 != ttr.end(); ++cur1)
 	{
 		double a1 = (double)cur1->p2.x - (double)cur1->p1.x;
@@ -1290,7 +1291,9 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 			if (y < nachL.y && ((cur1->p1.x <= x && x <= cur1->p2.x) || (cur1->p2.x <= x && x <= cur1->p1.x)) && ((cur1->p1.y <= y && y <= cur1->p2.y) || (cur1->p2.y <= y && y <= cur1->p1.y)))
 			{
-				vaiL.assign(x, y);
+				if (vaiL.y > y) {
+					vaiL.assign(x, y);
+				}
 			}
 		}
 
@@ -1314,7 +1317,9 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 			if (y < nachR.y && ((cur1->p1.x <= x && x <= cur1->p2.x) || (cur1->p2.x <= x && x <= cur1->p1.x)) && ((cur1->p1.y <= y && y <= cur1->p2.y) || (cur1->p2.y <= y && y <= cur1->p1.y)))
 			{
-				vaiR.assign(x, y);
+				if (vaiR.y > y) {
+					vaiR.assign(x, y);
+				}
 			}
 		}
 	}
@@ -1446,6 +1451,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 	double dd = eoL.distance(&eoR) / 756.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((eoL.x + eoR.x) / 2, (eoL.y + eoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	out << "waist " << precision2(dd) << endl;
 	// ----------------------------
 	// do chieu cao
 	line(
@@ -1459,6 +1465,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 	dd = pointLow.distance(&pointTop) / 756.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((pointLow.x + pointTop.x) / 2, (pointLow.y + pointTop.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	out << "length " << precision2(dd) << endl;
 	// ----------------------------
 	// do tay ao trai
 	line(
@@ -1472,6 +1479,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 	dd = pointMin.distance(&vaiL) / 756.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((pointMin.x + vaiL.x) / 2, (pointMin.y + vaiL.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	double sleeve = dd;
 	// ----------------------------
 	// do tay ao phai
 	line(
@@ -1485,6 +1493,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 	dd = pointMax.distance(&vaiR) / 756.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	sleeve += dd;
+	cout << "sleeve " << precision2(sleeve) << endl;
 	// ----------------------------
 	// do vai trai
 	line(
@@ -1498,6 +1508,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 	dd = vaiL.distance(&coAoL) / 756.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((vaiL.x + coAoL.x) / 2, (vaiL.y + coAoL.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	double shoulder = dd;
 	// ----------------------------
 	// do vai phai
 	line(
@@ -1511,6 +1522,8 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 	dd = vaiR.distance(&coAoR) / 756.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((vaiR.x + coAoR.x) / 2, (vaiR.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	shoulder += dd;
+	out << "shoulder " << precision2(shoulder / 2.0) << endl;
 	// ----------------------------
 	// do co ao
 	line(
@@ -1524,6 +1537,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String fileLog, String debugImage)
 
 	dd = coAoL.distance(&coAoR) / 756.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 2.0, Scalar(0, 0, 255), 2);
+	out << "neck " << precision2(dd) << endl;
 	// ----------------------------
 	log.close();
 
