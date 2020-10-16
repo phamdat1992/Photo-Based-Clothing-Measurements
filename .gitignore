@@ -1,6 +1,12 @@
 .vs
 .git
+.DS_Store
 Debug
+CMakeFiles
+Makefile
+CMakeCache.txt
+cmake_install.cmake
+Photo-Based-Clothing-Measurements
 x64
 log.txt
 debug.jpg

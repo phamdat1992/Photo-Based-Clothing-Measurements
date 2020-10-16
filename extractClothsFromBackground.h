@@ -276,10 +276,6 @@ Mat extractClothsFromBackground(Mat src)
 		{
 			if (!(ptr[0] == 0))
 			{
-				if (row == 1184)
-				{
-					cout << "debug";
-				}
 				xMax = max(xMax, col);
 				yMax = max(yMax, row);
 				yMin = min(yMin, row);
