@@ -345,14 +345,12 @@ string precision2(double number)
 	}
 }
 
-Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileLog, String fileOut)
+Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileOut)
 {
-	Point2D dcm1(393, 228), dcm2(435, 267);
-
 	string imageName;
 	Mat outImg;
 	ofstream log, out;
-	log.open(fileLog);
+	//log.open("fileLog.txt");
 	out.open(fileOut);
 
 	outImg = inImg.clone();
@@ -380,9 +378,6 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileLog,
 	int nchannels = 1;
 	for (int row = 0; row < inImg.rows; ++row)
 	{
-		if (row == 290) {
-			// cout << "debug";
-		}
 		const uchar* ptr = inImg.ptr(row);
 
 		l2 = f2;
@@ -425,7 +420,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileLog,
 
 		int len1 = l1 - f1;
 		int len2 = l2 - f2;
-
+        /*
 		log << "row " << row << endl;
 		log << "l1" << endl;
 		for (int i1 = 0; i1 <= len1; ++i1)
@@ -442,6 +437,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileLog,
 			log << f2[i2].pL.x << " " << f2[i2].pL.y << " " << f2[i2].pL.gl << " " << f2[i2].pL.gr << endl;
 			log << f2[i2].pR.x << " " << f2[i2].pR.y << " " << f2[i2].pR.gl << " " << f2[i2].pR.gr << endl;
 		}
+		*/
 
 		for (int i1 = 0, i2 = 0; i1 <= len1 && i2 <= len2; ++i2)
 		{
@@ -621,6 +617,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileLog,
 
 		int lenc2 = len1;
 
+		/*
 		for (int i = 0; i <= lenc1; ++i)
 		{
 			{
@@ -639,6 +636,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileLog,
 				log << endl;
 			}
 		}
+		*/
 
 		for (int idLeftDown = 0, idLeftUp, idRightUp, idRightDown; idLeftDown <= len1; ++idLeftDown)
 		{
@@ -998,7 +996,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileLog,
 		swap(lenc1, lenc2);
 	}
 
-	log.close();
+	//log.close();
 
 	list<Edge> result;
 	for (list<Edge>::iterator cur1 = ledges.begin(); cur1 != ledges.end(); ++cur1)

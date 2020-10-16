@@ -9,14 +9,14 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	if (argc == 6)
+	if (argc == 5)
 	{
 		Mat inImg = imread(argv[1], IMREAD_COLOR);
 
 		Mat outImg = recDetect(inImg);
 		outImg = recCorners(outImg, inImg);
 		outImg = extractClothsFromBackground(outImg);
-		outImg = photoBasedClothingMeasurements(outImg, argv[3], argv[4], argv[5]);
+		outImg = photoBasedClothingMeasurements(outImg, argv[3], argv[4]);
 		imwrite(argv[2], outImg);
 	}
 }
