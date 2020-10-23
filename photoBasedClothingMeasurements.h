@@ -1,10 +1,12 @@
 #pragma once
 
 #include "libs.h"
+#include "jsonxx.h"
 #include <sstream>
 
 using namespace std;
 using namespace cv;
+using namespace jsonxx;
 
 const double ALPHA_J = 5.0;
 const double EPS = 0.001;
@@ -352,6 +354,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 	string imageName;
 	Mat outImg;
 	ofstream log, out;
+	Object o;
 	//log.open("fileLog.txt");
 	out.open(fileOut);
 
@@ -1473,7 +1476,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 
 	double dd = eoL.distance(&eoR) / 250.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((eoL.x + eoR.x) / 2, (eoL.y + eoR.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
-	out << "waist " << precision2(dd) << endl;
+	o << "waist " << precision2(dd);
 	// ----------------------------
 	// do chieu cao
 	line(
@@ -1487,7 +1490,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 
 	dd = pointLow.distance(&pointTop) / 250.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((pointLow.x + pointTop.x) / 2, (pointLow.y + pointTop.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
-	out << "length " << precision2(dd) << endl;
+	o << "length " << precision2(dd);
 	// ----------------------------
 	// do tay ao trai
 	line(
@@ -1516,7 +1519,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 	dd = pointMax.distance(&vaiR) / 250.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((pointMax.x + vaiR.x) / 2, (pointMax.y + vaiR.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	sleeve += dd;
-	out << "sleeve " << precision2(sleeve / 2.0) << endl;
+	o << "sleeve " << precision2(sleeve / 2.0);
 	// ----------------------------
 	// do vai trai
 	line(
@@ -1545,7 +1548,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 	dd = vaiR.distance(&coAoR) / 250.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((vaiR.x + coAoR.x) / 2, (vaiR.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
 	shoulder += dd;
-	out << "shoulder " << precision2(shoulder / 2.0) << endl;
+	o << "shoulder " << precision2(shoulder / 2.0);
 	// ----------------------------
 	// do co ao
 	line(
@@ -1559,8 +1562,9 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 
 	dd = coAoL.distance(&coAoR) / 250.0 * 21.0;
 	putText(resultImg, precision2(dd), Point((coAoL.x + coAoR.x) / 2, (coAoL.y + coAoR.y) / 2), FONT_HERSHEY_COMPLEX, 1.5, Scalar(0, 0, 255), 2);
-	out << "neck " << precision2(dd) << endl;
+	o << "neck " << precision2(dd);
 	// ----------------------------
+	out << o.json();
 	out.close();
 
 	log.open(fileDebug);
