@@ -345,8 +345,9 @@ string precision2(double number)
 	}
 }
 
-Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileOut)
+Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut, string fileDebug)
 {
+	string debug;
 	string imageName;
 	Mat outImg;
 	ofstream log, out;
@@ -420,24 +421,23 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileOut)
 
 		int len1 = l1 - f1;
 		int len2 = l2 - f2;
-        /*
-		log << "row " << row << endl;
-		log << "l1" << endl;
+        
+		debug += "row " + row + "\n";
+		debug += "l1" + "\n";
 		for (int i1 = 0; i1 <= len1; ++i1)
 		{
-			log << f1[i1].l << " " << f1[i1].r << endl;
-			log << f1[i1].pL.x << " " << f1[i1].pL.y << " " << f1[i1].pL.gl << " " << f1[i1].pL.gr << endl;
-			log << f1[i1].pR.x << " " << f1[i1].pR.y << " " << f1[i1].pR.gl << " " << f1[i1].pR.gr << endl;
+			debug += f1[i1].l + " " + f1[i1].r + "\n";
+			debug += f1[i1].pL.x + " " + f1[i1].pL.y + " " + f1[i1].pL.gl + " " + f1[i1].pL.gr + "\n";
+			debug += f1[i1].pR.x + " " + f1[i1].pR.y + " " + f1[i1].pR.gl + " " + f1[i1].pR.gr + "\n";
 		}
 
-		log << "l2" << endl;
+		debug += "l2" + "\n";
 		for (int i2 = 0; i2 <= len2; ++i2)
 		{
-			log << f2[i2].l << " " << f2[i2].r << endl;
-			log << f2[i2].pL.x << " " << f2[i2].pL.y << " " << f2[i2].pL.gl << " " << f2[i2].pL.gr << endl;
-			log << f2[i2].pR.x << " " << f2[i2].pR.y << " " << f2[i2].pR.gl << " " << f2[i2].pR.gr << endl;
+			debug += f2[i2].l + " " + f2[i2].r + "\n";
+			debug += f2[i2].pL.x + " " + f2[i2].pL.y + " " + f2[i2].pL.gl + " " + f2[i2].pL.gr + "\n";
+			debug += f2[i2].pR.x + " " + f2[i2].pR.y + " " + f2[i2].pR.gl + " " + f2[i2].pR.gr + "\n";
 		}
-		*/
 
 		for (int i1 = 0, i2 = 0; i1 <= len1 && i2 <= len2; ++i2)
 		{
@@ -617,26 +617,24 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileOut)
 
 		int lenc2 = len1;
 
-		/*
 		for (int i = 0; i <= lenc1; ++i)
 		{
 			{
-				log << "node id = " << i << endl;
-				log << "color " << cc1[i].color << " left " << cc1[i].l << " right " << cc1[i].r << " left_down " << cc1[i].linkLeftDown << " right_down " << cc1[i].LinkRightDown << endl;
-				log << "edge" << endl;
+				debug += "node id = " + i + "\n";
+				debug += "color " + cc1[i].color + " left " + cc1[i].l + " right " + cc1[i].r + " left_down " + cc1[i].linkLeftDown + " right_down " + cc1[i].LinkRightDown + "\n";
+				debug += "edge" + "\n";
 				for (int cur = cc1[i].edgeID; cur != -1; cur = edgeStack.getEdge(cur)->pNext)
 				{
-					log << "[";
-					log << "(" << edgeStack.getEdge(cur)->p1.x << ", " << edgeStack.getEdge(cur)->p1.y << ")-";
-					log << "(" << edgeStack.getEdge(cur)->p2.x << ", " << edgeStack.getEdge(cur)->p2.y << ") ";
-					log << edgeStack.getEdge(cur)->hsg << " - ";
-					log << edgeStack.getEdge(cur)->isMin;
-					log << "]";
+					debug += "[";
+					debug += "(" + edgeStack.getEdge(cur)->p1.x + ", " + edgeStack.getEdge(cur)->p1.y + ")-";
+					debug += "(" + edgeStack.getEdge(cur)->p2.x + ", " + edgeStack.getEdge(cur)->p2.y + ") ";
+					debug += edgeStack.getEdge(cur)->hsg + " - ";
+					debug += edgeStack.getEdge(cur)->isMin;
+					debug += "]";
 				}
-				log << endl;
+				debug += "\n";
 			}
 		}
-		*/
 
 		for (int idLeftDown = 0, idLeftUp, idRightUp, idRightDown; idLeftDown <= len1; ++idLeftDown)
 		{
@@ -1563,6 +1561,10 @@ Mat photoBasedClothingMeasurements(Mat inImg, String debugImage, String fileOut)
 	out << "neck " << precision2(dd) << endl;
 	// ----------------------------
 	out.close();
+
+	log.open(fileDebug);
+	log << debug;
+	log.close();
 
 	delete[] f1;
 	delete[] f2;
