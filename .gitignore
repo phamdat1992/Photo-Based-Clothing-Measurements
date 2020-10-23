@@ -10,6 +10,7 @@ cmake_install.cmake
 Photo-Based-Clothing-Measurements
 x64
 log.txt
+debug.txt
 debug.jpg
 out.jpg
 out.txt
