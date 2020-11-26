@@ -737,11 +737,11 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 								double hsg;
 								if (curEdge->isMin)
 								{
-									hsg = (f1[j].l == curEdge->p2.x) ? numeric_limits<double>::max() : ((double)f1[j].l - curEdge->p2.x) / ((double)pRow - curEdge->p2.y);
+									hsg = (f1[j].l == curEdge->p2.x && pRow == curEdge->p2.y) ? numeric_limits<double>::max() : ((double)f1[j].l - curEdge->p2.x) / ((double)pRow - curEdge->p2.y);
 								}
 								else
 								{
-									hsg = (f1[j].l == curEdge->p1.x) ? numeric_limits<double>::max() : ((double)f1[j].l - curEdge->p1.x) / ((double)pRow - curEdge->p1.y);
+									hsg = (f1[j].l == curEdge->p1.x && pRow == curEdge->p1.y) ? numeric_limits<double>::max() : ((double)f1[j].l - curEdge->p1.x) / ((double)pRow - curEdge->p1.y);
 								}
 
 								if ((curEdge->isMin && hsg >= curEdge->hsg) || (!curEdge->isMin && hsg <= curEdge->hsg))
@@ -800,7 +800,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 								edgeStack.getEdge(newEdgeId)->setEdge(
 									currentImageId,
 									cc1[idLeftUp].edgeID,
-									(f1[j].l == bk.x) ? numeric_limits<double>::max() : ((double)f1[j].l - bk.x) / ((double)pRow - bk.y + EPS),
+									(f1[j].l == bk.x && pRow == bk.y) ? numeric_limits<double>::max() : ((double)f1[j].l - bk.x) / ((double)pRow - bk.y + EPS),
 									true,
 									&temp,
 									&bk
@@ -819,7 +819,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 							{
 								//int newEdgeId = edgeStack.getEdgeFromStack(currentImageId);
 								Edge* curEdge = edgeStack.getEdge(fflag2);
-								double hsg = (f1[j].r == curEdge->p1.x) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p1.x) / ((double)pRow - curEdge->p1.y);
+								double hsg = (f1[j].r == curEdge->p1.x && pRow == curEdge->p1.y) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p1.x) / ((double)pRow - curEdge->p1.y);
 
 								/*
 								cout << "(" << curEdge->p1.x << ", " << curEdge->p1.y << ")";
@@ -846,7 +846,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 								edgeStack.getEdge(newEdgeId)->setEdge(
 									currentImageId,
 									-1,
-									(f1[j].r == curEdge->p1.x) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p1.x) / ((double)pRow - curEdge->p1.y + EPS),
+									(f1[j].r == curEdge->p1.x && pRow == curEdge->p1.y) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p1.x) / ((double)pRow - curEdge->p1.y + EPS),
 									false,
 									&curEdge->p1,
 									&temp
@@ -863,7 +863,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 								edgeStack.getEdge(newEdgeId)->setEdge(
 									currentImageId,
 									-1,
-									(f1[j].r == curEdge->p2.x) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p2.x) / ((double)pRow - curEdge->p2.y + EPS),
+									(f1[j].r == curEdge->p2.x && pRow == curEdge->p2.y) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p2.x) / ((double)pRow - curEdge->p2.y + EPS),
 									false,
 									&curEdge->p2,
 									&temp
@@ -888,11 +888,11 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 								double hsg;
 								if (curEdge->isMin)
 								{
-									hsg = (f1[j].r == curEdge->p2.x) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p2.x) / ((double)pRow - curEdge->p2.y);
+									hsg = (f1[j].r == curEdge->p2.x && pRow == curEdge->p2.y) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p2.x) / ((double)pRow - curEdge->p2.y);
 								}
 								else
 								{
-									hsg = (f1[j].r == curEdge->p1.x) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p1.x) / ((double)pRow - curEdge->p1.y);
+									hsg = (f1[j].r == curEdge->p1.x && pRow == curEdge->p1.y) ? numeric_limits<double>::max() : ((double)f1[j].r - curEdge->p1.x) / ((double)pRow - curEdge->p1.y);
 								}
 
 								if ((curEdge->isMin && hsg >= curEdge->hsg) || (!curEdge->isMin && hsg <= curEdge->hsg))
@@ -951,7 +951,7 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 							edgeStack.getEdge(newEdgeId)->setEdge(
 								currentImageId,
 								cc1[idLeftUp].edgeID,
-								(f1[j].r == bk.x) ? numeric_limits<double>::max() : ((double)f1[j].r - bk.x) / ((double)pRow - bk.y + EPS),
+								(f1[j].r == bk.x && pRow == bk.y) ? numeric_limits<double>::max() : ((double)f1[j].r - bk.x) / ((double)pRow - bk.y + EPS),
 								true,
 								&temp,
 								&bk
@@ -1043,6 +1043,9 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 	}
 
 	imwrite(debugImage, outImg);
+	log.open(fileDebug);
+	log << debug.str();
+	log.close();
 
 	list<Edge> ttr;
 	ttr.push_front((*result.begin()));
@@ -1566,10 +1569,6 @@ Mat photoBasedClothingMeasurements(Mat inImg, string debugImage, string fileOut,
 	// ----------------------------
 	out << o.json();
 	out.close();
-
-	log.open(fileDebug);
-	log << debug.str();
-	log.close();
 
 	delete[] f1;
 	delete[] f2;
