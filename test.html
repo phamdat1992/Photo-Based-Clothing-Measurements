@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Photo baseed clothing measurement demo</title>
+</head>
+<body>
+
+<div id="content"></div>
+<input id="queue" type="text"/>
+<button onclick="myFunction()">click me</button>
+
+<script>
+    function myFunction() {
+        console.log("test");
+        let queue = document.getElementById("queue").value;
+        const evtSource = new EventSource("http://localhost:1234/api/startEvent?queue=" + queue);
+        //evtSource.onopen = (e) => console.log(e);
+        evtSource.onmessage = (e) => console.log(e.data);
+    }
+</script>
+
+</body>
+</html>
